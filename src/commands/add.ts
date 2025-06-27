@@ -1,0 +1,61 @@
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import {
+	commandExists,
+	copyLocalCommand,
+	downloadCommand,
+	removeCommand,
+} from "../utils/files.js";
+import { findCommand } from "../utils/registry.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export async function addCommand(
+	commandName: string,
+	options: { name?: string; project?: boolean; user?: boolean },
+): Promise<void> {
+	const targetName = options.name || commandName;
+
+	// Check for exclusive options
+	if (options.project && options.user) {
+		console.error("Cannot specify both --project and --user options");
+		process.exit(1);
+	}
+
+	// Default to project mode if neither is specified
+	const useUserDir = options.user === true;
+
+	try {
+		const command = findCommand(commandName);
+		if (!command) {
+			console.error(`Command "${commandName}" not found in registry`);
+			process.exit(1);
+		}
+
+		if (commandExists(targetName, useUserDir)) {
+			console.log(`Removing existing command "${targetName}"`);
+			removeCommand(targetName, useUserDir);
+		}
+
+		if (command.type === "registry_directory") {
+			const sourcePath = join(
+				__dirname,
+				"../../registry/commands",
+				commandName,
+				`${commandName}.md`,
+			);
+			copyLocalCommand(sourcePath, targetName, useUserDir);
+			console.log(`Added command "${targetName}" from local registry`);
+		} else if (command.type === "github" && command.url) {
+			await downloadCommand(command.url, targetName, useUserDir);
+			console.log(`Added command "${targetName}" from ${command.url}`);
+		} else {
+			console.error(`Invalid command configuration for "${commandName}"`);
+			process.exit(1);
+		}
+	} catch (error) {
+		console.error(`Failed to add command "${commandName}":`, error);
+		process.exit(1);
+	}
+}
