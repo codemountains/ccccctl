@@ -1,0 +1,4 @@
+commands:
+  - type: registry_directory
+    name: about-cccc
+    description: Explains about Claude Code custom slash commands.
