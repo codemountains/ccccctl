@@ -1,0 +1,18 @@
+{
+  "name": "ccccctl",
+  "type": "module",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --write"
+  },
+  "keywords": [],
+  "author": "codemountains",
+  "license": "MIT",
+  "description": "",
+  "devDependencies": {
+    "@biomejs/biome": "2.0.6"
+  }
+}

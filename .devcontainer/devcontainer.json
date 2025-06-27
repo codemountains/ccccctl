@@ -1,0 +1,76 @@
+{
+  "name": "ccccctl devcontainer",
+  "image": "node:22.16.0-bullseye",
+  "containerName": "ccccctl-devcontainer",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "runArgs": ["--name", "ccccctl-devcontainer"],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "fill-labs.dependi",
+        "ms-azuretools.vscode-docker",
+        "streetsidesoftware.code-spell-checker",
+        "biomejs.biome",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "editor.formatOnSave": true,
+        "cSpell.enabled": true,
+        "cSpell.language": "en,ja",
+        "cSpell.dictionaries": ["ccccctl-words"],
+        "cSpell.dictionaryDefinitions": [
+          {
+            "name": "ccccctl-words",
+            "path": "./.devcontainer/cspell-dict/ccccctl-words.txt",
+            "scope": "folder",
+            "addWords": true
+          }
+        ],
+        "cSpell.ignorePaths": [],
+        "[javascript]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "biomejs.biome",
+          "editor.tabSize": 2,
+          "editor.insertSpaces": true,
+          "editor.detectIndentation": false
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "biomejs.biome",
+          "editor.tabSize": 2,
+          "editor.insertSpaces": true,
+          "editor.detectIndentation": false
+        }
+      }
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true,
+      "username": "ccccctl-dev"
+    },
+    "ghcr.io/jungaretti/features/ripgrep:1": {},
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
+  "mounts": [
+    "source=${localWorkspaceFolder}/.devcontainer/.zshrc,target=/home/ccccctl-dev/.zshrc,type=bind,consistency=cached",
+    "source=ccccctl-zsh-history,target=/home/ccccctl-dev/.zsh-history,type=volume",
+    "source=ccccctl-claude-code-config,target=/home/ccccctl-dev/.claude,type=volume"
+  ],
+  "remoteUser": "ccccctl-dev",
+  "containerEnv": {
+    "NODE_ENV": "development",
+    "NPM_CONFIG_PREFIX": "/home/ccccctl-dev/.npm-global",
+    "CLAUDE_CONFIG_DIR": "/home/ccccctl-dev/.claude"
+  },
+  "postCreateCommand": "sudo chown -R ccccctl-dev:ccccctl-dev /home/ccccctl-dev/.claude"
+}

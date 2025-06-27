@@ -1,0 +1,8 @@
+anthropics
+ccccctl
+dependi
+devcontainers
+eamodio
+ehthumbs
+jungaretti
+robbyrussell
