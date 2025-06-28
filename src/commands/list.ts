@@ -12,7 +12,7 @@ export async function listCommand(): Promise<void> {
 			console.log(`  ${command.name}`);
 			console.log(`    Description: ${command.description}`);
 			console.log(`    Type: ${command.type}`);
-			if (command.url) {
+			if (command.type === "github") {
 				console.log(`    URL: ${command.url}`);
 			}
 			console.log("");

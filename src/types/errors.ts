@@ -24,6 +24,7 @@ export enum ErrorCode {
 	// Validation errors
 	INVALID_COMMAND_NAME = "INVALID_COMMAND_NAME",
 	INVALID_URL = "INVALID_URL",
+	REGISTRY_VALIDATION_FAILED = "REGISTRY_VALIDATION_FAILED",
 }
 
 export interface ErrorContext {
@@ -73,6 +74,14 @@ export class RegistryError extends CcccctlError {
 			`Failed to parse registry file: ${path}`,
 			ErrorCode.REGISTRY_PARSE_FAILED,
 			{ path, cause },
+		);
+	}
+
+	static validationFailed(path: string, message: string): RegistryError {
+		return new RegistryError(
+			`Registry validation failed for ${path}: ${message}`,
+			ErrorCode.REGISTRY_VALIDATION_FAILED,
+			{ path, message },
 		);
 	}
 

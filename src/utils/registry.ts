@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { load } from "js-yaml";
 import type { Registry, RegistryCommand } from "@/types.js";
 import { RegistryError } from "@/types.js";
+import { validateRegistry } from "@/utils/validation.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -54,8 +55,12 @@ async function fetchRegistryFromGitHub(): Promise<Registry> {
 
 	try {
 		const registryContent = await response.text();
-		return load(registryContent) as Registry;
+		const parsedData = load(registryContent);
+		return validateRegistry(parsedData, REGISTRY_URL);
 	} catch (error) {
+		if (error instanceof RegistryError) {
+			throw error;
+		}
 		throw RegistryError.parseFailed(
 			REGISTRY_URL,
 			error instanceof Error ? error : undefined,
@@ -79,7 +84,8 @@ export async function loadRegistryAsync(): Promise<Registry> {
 				throw RegistryError.notFound(registryPath);
 			}
 			const registryContent = readFileSync(registryPath, "utf-8");
-			registry = load(registryContent) as Registry;
+			const parsedData = load(registryContent);
+			registry = validateRegistry(parsedData, registryPath);
 		} else {
 			// Production mode: fetch from GitHub
 			registry = await fetchRegistryFromGitHub();
@@ -111,8 +117,12 @@ export function loadRegistry(): Registry {
 		}
 		try {
 			const registryContent = readFileSync(registryPath, "utf-8");
-			return load(registryContent) as Registry;
+			const parsedData = load(registryContent);
+			return validateRegistry(parsedData, registryPath);
 		} catch (error) {
+			if (error instanceof RegistryError) {
+				throw error;
+			}
 			throw RegistryError.parseFailed(
 				registryPath,
 				error instanceof Error ? error : undefined,

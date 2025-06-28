@@ -71,7 +71,7 @@ export async function addCommand(
 				await downloadCommand(githubUrl, targetName, useUserDir);
 				console.log(`Added command "${targetName}" from GitHub registry`);
 			}
-		} else if (command.type === "github" && command.url) {
+		} else if (command.type === "github") {
 			await downloadCommand(command.url, targetName, useUserDir);
 			console.log(`Added command "${targetName}" from ${command.url}`);
 		} else {
