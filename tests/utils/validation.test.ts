@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { validateRegistryCommand, validateRegistry } from "@/utils/validation.js";
-import { RegistryError } from "@/types.js";
+import { RegistryError } from "@/types/index.js";
 
 describe("validation utilities", () => {
 	describe("validateRegistryCommand", () => {

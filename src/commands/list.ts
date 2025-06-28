@@ -1,4 +1,4 @@
-import { isCcccctlError } from "@/types.js";
+import { isCcccctlError } from "@/types/index.js";
 import { loadRegistryAsync } from "@/utils/registry.js";
 
 function formatDescription(description: string, indent = "  "): string {

@@ -3,7 +3,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import fsExtra from "fs-extra";
 import fetch from "node-fetch";
-import { FileSystemError, NetworkError } from "@/types.js";
+import { FileSystemError, NetworkError } from "@/types/index.js";
 
 const { ensureDirSync, copyFileSync, removeSync, existsSync } = fsExtra;
 

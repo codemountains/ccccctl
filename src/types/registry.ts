@@ -21,5 +21,3 @@ export type RegistryCommand = RegistryDirectoryCommand | GithubCommand;
 export interface Registry {
 	commands: RegistryCommand[];
 }
-
-export * from "@/types/errors.js";

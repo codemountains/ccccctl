@@ -1,7 +1,7 @@
 import { writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import fsExtra from "fs-extra";
-import fetch from "node-fetch";
+import fetch, { Response } from "node-fetch";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
 	commandExists,
@@ -11,7 +11,7 @@ import {
 	getClaudeCommandsDir,
 	getLocalCommandPath,
 	removeCommand,
-} from "../../src/utils/files.js";
+} from "@/utils/files.js";
 
 vi.mock("node:fs");
 vi.mock("node:os");
@@ -115,7 +115,7 @@ describe("files utilities", () => {
 					Promise.resolve("# Test Command\n\nThis is a test command."),
 			};
 			mockFetch.mockResolvedValue(
-				mockResponse as unknown as ReturnType<typeof fetch>,
+				mockResponse as unknown as Response,
 			);
 
 			const url = "https://raw.githubusercontent.com/user/repo/main/command.md";
@@ -137,7 +137,7 @@ describe("files utilities", () => {
 				text: () => Promise.resolve("# Test Command"),
 			};
 			mockFetch.mockResolvedValue(
-				mockResponse as unknown as ReturnType<typeof fetch>,
+				mockResponse as unknown as Response,
 			);
 
 			const blobUrl = "https://github.com/user/repo/blob/main/commands/test.md";
@@ -155,7 +155,7 @@ describe("files utilities", () => {
 				statusText: "Not Found",
 			};
 			mockFetch.mockResolvedValue(
-				mockResponse as unknown as ReturnType<typeof fetch>,
+				mockResponse as unknown as Response,
 			);
 
 			const url =

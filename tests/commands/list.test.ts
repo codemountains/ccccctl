@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Registry } from "../../src/types.js";
-import { loadRegistryAsync } from "../../src/utils/registry.js";
-import { listCommand } from "../../src/commands/list.js";
+import type { Registry } from "@/types/registry.js";
+import { loadRegistryAsync } from "@/utils/registry.js";
+import { listCommand } from "@/commands/list.js";
 
-vi.mock("../../src/utils/registry.js");
+vi.mock("@/utils/registry.js");
 
 const mockLoadRegistryAsync = vi.mocked(loadRegistryAsync);
 

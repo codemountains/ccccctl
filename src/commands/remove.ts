@@ -2,7 +2,7 @@ import {
 	ConfigurationError,
 	FileSystemError,
 	isCcccctlError,
-} from "@/types.js";
+} from "@/types/index.js";
 import {
 	commandExists,
 	removeCommand as removeCommandFile,

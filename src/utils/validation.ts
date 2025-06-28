@@ -1,5 +1,5 @@
-import type { Registry, RegistryCommand } from "@/types.js";
-import { RegistryError } from "@/types.js";
+import type { Registry, RegistryCommand } from "@/types/index.js";
+import { RegistryError } from "@/types/index.js";
 
 /**
  * Validates if the given data is a valid RegistryCommand

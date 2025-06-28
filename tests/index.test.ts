@@ -4,9 +4,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("node:fs");
 vi.mock("commander");
-vi.mock("../src/commands/add.js");
-vi.mock("../src/commands/list.js");
-vi.mock("../src/commands/remove.js");
+vi.mock("@/commands/add.js");
+vi.mock("@/commands/list.js");
+vi.mock("@/commands/remove.js");
 
 const mockReadFileSync = vi.mocked(readFileSync);
 const mockCommand = vi.mocked(Command);

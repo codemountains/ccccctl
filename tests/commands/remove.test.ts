@@ -2,10 +2,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
 	commandExists,
 	removeCommand as removeCommandFile,
-} from "../../src/utils/files.js";
-import { removeCommand } from "../../src/commands/remove.js";
+} from "@/utils/files.js";
+import { removeCommand } from "@/commands/remove.js";
 
-vi.mock("../../src/utils/files.js");
+vi.mock("@/utils/files.js");
 
 const mockCommandExists = vi.mocked(commandExists);
 const mockRemoveCommandFile = vi.mocked(removeCommandFile);

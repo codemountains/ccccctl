@@ -2,8 +2,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { load } from "js-yaml";
-import type { Registry, RegistryCommand } from "@/types.js";
-import { RegistryError } from "@/types.js";
+import type { Registry, RegistryCommand } from "@/types/index.js";
+import { RegistryError } from "@/types/index.js";
 import { validateRegistry } from "@/utils/validation.js";
 
 const __filename = fileURLToPath(import.meta.url);

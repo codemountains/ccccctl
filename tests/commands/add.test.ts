@@ -1,17 +1,17 @@
 import { existsSync } from "node:fs";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { RegistryCommand } from "../../src/types.js";
 import {
 	commandExists,
 	copyLocalCommand,
 	downloadCommand,
-} from "../../src/utils/files.js";
-import { findCommandAsync, getRegistryPath } from "../../src/utils/registry.js";
-import { addCommand } from "../../src/commands/add.js";
+} from "@/utils/files.js";
+import { findCommandAsync, getRegistryPath } from "@/utils/registry.js";
+import { addCommand } from "@/commands/add.js";
+import { RegistryCommand } from "@/types/registry.js";
 
 vi.mock("node:fs");
-vi.mock("../../src/utils/files.js");
-vi.mock("../../src/utils/registry.js");
+vi.mock("@/utils/files.js");
+vi.mock("@/utils/registry.js");
 
 const mockExistsSync = vi.mocked(existsSync);
 const mockCommandExists = vi.mocked(commandExists);

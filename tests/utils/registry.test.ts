@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { load } from "js-yaml";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Registry } from "../../src/types.js";
+import type { Registry } from "@/types/registry.js";
 import {
 	clearRegistryCache,
 	findCommand,
@@ -77,7 +77,7 @@ describe("registry utilities", () => {
 			mockExistsSync.mockImplementation((path) => {
 				return (
 					path === "/workspaces/ccccctl/registry/registry.yml" ||
-					path.endsWith("registry/registry.yml")
+					(typeof path === 'string' && path.endsWith("registry/registry.yml"))
 				);
 			});
 			mockReadFileSync.mockReturnValue("yaml content");
@@ -120,7 +120,7 @@ describe("registry utilities", () => {
 			mockExistsSync.mockImplementation((path) => {
 				return (
 					path === "/workspaces/ccccctl/registry/registry.yml" ||
-					path.endsWith("registry/registry.yml")
+					(typeof path === 'string' && path.endsWith("registry/registry.yml"))
 				);
 			});
 			mockReadFileSync.mockReturnValue("yaml content");
@@ -177,7 +177,7 @@ describe("registry utilities", () => {
 			mockExistsSync.mockImplementation((path) => {
 				return (
 					path === "/workspaces/ccccctl/registry/registry.yml" ||
-					path.endsWith("registry/registry.yml")
+					(typeof path === 'string' && path.endsWith("registry/registry.yml"))
 				);
 			});
 			mockReadFileSync.mockReturnValue("yaml content");
@@ -197,7 +197,7 @@ describe("registry utilities", () => {
 			mockExistsSync.mockImplementation((path) => {
 				return (
 					path === "/workspaces/ccccctl/registry/registry.yml" ||
-					path.endsWith("registry/registry.yml")
+					(typeof path === 'string' && path.endsWith("registry/registry.yml"))
 				);
 			});
 			mockReadFileSync.mockReturnValue("yaml content");
@@ -215,7 +215,7 @@ describe("registry utilities", () => {
 			mockExistsSync.mockImplementation((path) => {
 				return (
 					path === "/workspaces/ccccctl/registry/registry.yml" ||
-					path.endsWith("registry/registry.yml")
+					(typeof path === 'string' && path.endsWith("registry/registry.yml"))
 				);
 			});
 			mockReadFileSync.mockReturnValue("yaml content");
@@ -236,7 +236,7 @@ describe("registry utilities", () => {
 			mockExistsSync.mockImplementation((path) => {
 				return (
 					path === "/workspaces/ccccctl/registry/registry.yml" ||
-					path.endsWith("registry/registry.yml")
+					(typeof path === 'string' && path.endsWith("registry/registry.yml"))
 				);
 			});
 			mockReadFileSync.mockReturnValue("yaml content");

@@ -6,7 +6,7 @@ import {
 	FileSystemError,
 	isCcccctlError,
 	RegistryError,
-} from "@/types.js";
+} from "@/types/index.js";
 import {
 	commandExists,
 	copyLocalCommand,

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { loadRegistryAsync, clearRegistryCache } from "@/utils/registry.js";
-import { RegistryError } from "@/types.js";
+import { RegistryError } from "@/types/index.js";
 
 // Mock the development mode detection
 vi.mock("node:fs", async () => {
