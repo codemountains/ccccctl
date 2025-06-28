@@ -1,4 +1,9 @@
 import {
+	ConfigurationError,
+	FileSystemError,
+	isCcccctlError,
+} from "@/types.js";
+import {
 	commandExists,
 	removeCommand as removeCommandFile,
 } from "@/utils/files.js";
@@ -9,7 +14,11 @@ export function removeCommand(
 ): void {
 	// Check for exclusive options
 	if (options.project && options.user) {
-		console.error("Cannot specify both --project and --user options");
+		const error = ConfigurationError.invalidOptionsCombination([
+			"--project",
+			"--user",
+		]);
+		console.error(error.message);
 		process.exit(1);
 	}
 
@@ -18,14 +27,20 @@ export function removeCommand(
 
 	try {
 		if (!commandExists(commandName, useUserDir)) {
-			console.error(`Command "${commandName}" not found in local commands`);
+			const scope = useUserDir ? "user" : "project";
+			const error = FileSystemError.commandNotFound(commandName, scope);
+			console.error(error.message);
 			process.exit(1);
 		}
 
 		removeCommandFile(commandName, useUserDir);
 		console.log(`Removed command "${commandName}"`);
-	} catch (error) {
-		console.error(`Failed to remove command "${commandName}":`, error);
+	} catch (error: unknown) {
+		if (isCcccctlError(error)) {
+			console.error(error.message);
+		} else {
+			console.error(`Failed to remove command "${commandName}":`, error);
+		}
 		process.exit(1);
 	}
 }

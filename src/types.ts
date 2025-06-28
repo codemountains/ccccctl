@@ -8,3 +8,5 @@ export interface RegistryCommand {
 export interface Registry {
 	commands: RegistryCommand[];
 }
+
+export * from "@/types/errors.js";

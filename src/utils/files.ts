@@ -3,6 +3,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import fsExtra from "fs-extra";
 import fetch from "node-fetch";
+import { FileSystemError, NetworkError } from "@/types.js";
 
 const { ensureDirSync, copyFileSync, removeSync, existsSync } = fsExtra;
 
@@ -14,8 +15,16 @@ export function getClaudeCommandsDir(useUserDir = false): string {
 }
 
 export function ensureClaudeCommandsDir(useUserDir = false): void {
-	const claudeDir = getClaudeCommandsDir(useUserDir);
-	ensureDirSync(claudeDir);
+	try {
+		const claudeDir = getClaudeCommandsDir(useUserDir);
+		ensureDirSync(claudeDir);
+	} catch (error) {
+		const claudeDir = getClaudeCommandsDir(useUserDir);
+		throw FileSystemError.directoryCreateFailed(
+			claudeDir,
+			error instanceof Error ? error : undefined,
+		);
+	}
 }
 
 export function getLocalCommandPath(
@@ -30,9 +39,18 @@ export function copyLocalCommand(
 	commandName: string,
 	useUserDir = false,
 ): void {
-	ensureClaudeCommandsDir(useUserDir);
-	const targetPath = getLocalCommandPath(commandName, useUserDir);
-	copyFileSync(sourcePath, targetPath);
+	try {
+		ensureClaudeCommandsDir(useUserDir);
+		const targetPath = getLocalCommandPath(commandName, useUserDir);
+		copyFileSync(sourcePath, targetPath);
+	} catch (error) {
+		const targetPath = getLocalCommandPath(commandName, useUserDir);
+		throw FileSystemError.copyFailed(
+			sourcePath,
+			targetPath,
+			error instanceof Error ? error : undefined,
+		);
+	}
 }
 
 function convertGitHubUrlToRaw(url: string): string {
@@ -56,21 +74,38 @@ export async function downloadCommand(
 	commandName: string,
 	useUserDir = false,
 ): Promise<void> {
-	ensureClaudeCommandsDir(useUserDir);
-	const targetPath = getLocalCommandPath(commandName, useUserDir);
+	try {
+		ensureClaudeCommandsDir(useUserDir);
+		const targetPath = getLocalCommandPath(commandName, useUserDir);
 
-	// Convert GitHub blob URLs to raw URLs
-	const rawUrl = convertGitHubUrlToRaw(url);
+		// Convert GitHub blob URLs to raw URLs
+		const rawUrl = convertGitHubUrlToRaw(url);
 
-	const response = await fetch(rawUrl);
-	if (!response.ok) {
-		throw new Error(
-			`Failed to download command from ${rawUrl}: ${response.statusText}`,
+		const response = await fetch(rawUrl);
+		if (!response.ok) {
+			throw NetworkError.downloadFailed(
+				rawUrl,
+				response.status,
+				response.statusText,
+			);
+		}
+
+		const content = await response.text();
+		writeFileSync(targetPath, content);
+	} catch (error) {
+		if (error instanceof NetworkError) {
+			throw error;
+		}
+		if (error instanceof Error && error.message.includes("fetch")) {
+			const rawUrl = convertGitHubUrlToRaw(url);
+			throw NetworkError.requestFailed(rawUrl);
+		}
+		const targetPath = getLocalCommandPath(commandName, useUserDir);
+		throw FileSystemError.writeFailed(
+			targetPath,
+			error instanceof Error ? error : undefined,
 		);
 	}
-
-	const content = await response.text();
-	writeFileSync(targetPath, content);
 }
 
 export function removeCommand(commandName: string, useUserDir = false): void {

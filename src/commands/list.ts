@@ -1,3 +1,4 @@
+import { isCcccctlError } from "@/types.js";
 import { loadRegistryAsync } from "@/utils/registry.js";
 
 export async function listCommand(): Promise<void> {
@@ -16,8 +17,12 @@ export async function listCommand(): Promise<void> {
 			}
 			console.log("");
 		});
-	} catch (error) {
-		console.error("Failed to list commands:", error);
+	} catch (error: unknown) {
+		if (isCcccctlError(error)) {
+			console.error(error.message);
+		} else {
+			console.error("Failed to list commands:", error);
+		}
 		process.exit(1);
 	}
 }

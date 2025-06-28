@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { load } from "js-yaml";
 import type { Registry, RegistryCommand } from "@/types.js";
+import { RegistryError } from "@/types.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -44,13 +45,22 @@ async function fetchRegistryFromGitHub(): Promise<Registry> {
 	});
 
 	if (!response.ok) {
-		throw new Error(
-			`Failed to fetch registry from GitHub: ${response.status} ${response.statusText}`,
+		throw RegistryError.fetchFailed(
+			REGISTRY_URL,
+			response.status,
+			response.statusText,
 		);
 	}
 
-	const registryContent = await response.text();
-	return load(registryContent) as Registry;
+	try {
+		const registryContent = await response.text();
+		return load(registryContent) as Registry;
+	} catch (error) {
+		throw RegistryError.parseFailed(
+			REGISTRY_URL,
+			error instanceof Error ? error : undefined,
+		);
+	}
 }
 
 export async function loadRegistryAsync(): Promise<Registry> {
@@ -61,14 +71,30 @@ export async function loadRegistryAsync(): Promise<Registry> {
 
 	let registry: Registry;
 
-	if (isDevelopmentMode()) {
-		// Development mode: use local file
-		const registryPath = getRegistryPath();
-		const registryContent = readFileSync(registryPath, "utf-8");
-		registry = load(registryContent) as Registry;
-	} else {
-		// Production mode: fetch from GitHub
-		registry = await fetchRegistryFromGitHub();
+	try {
+		if (isDevelopmentMode()) {
+			// Development mode: use local file
+			const registryPath = getRegistryPath();
+			if (!existsSync(registryPath)) {
+				throw RegistryError.notFound(registryPath);
+			}
+			const registryContent = readFileSync(registryPath, "utf-8");
+			registry = load(registryContent) as Registry;
+		} else {
+			// Production mode: fetch from GitHub
+			registry = await fetchRegistryFromGitHub();
+		}
+	} catch (error) {
+		if (error instanceof RegistryError) {
+			throw error;
+		}
+		if (isDevelopmentMode()) {
+			throw RegistryError.parseFailed(
+				getRegistryPath(),
+				error instanceof Error ? error : undefined,
+			);
+		}
+		throw RegistryError.fetchFailed(REGISTRY_URL);
 	}
 
 	// Cache the result
@@ -81,14 +107,19 @@ export function loadRegistry(): Registry {
 	if (isDevelopmentMode()) {
 		const registryPath = getRegistryPath();
 		if (!existsSync(registryPath)) {
-			throw new Error(`Registry file not found: ${registryPath}`);
+			throw RegistryError.notFound(registryPath);
 		}
-		const registryContent = readFileSync(registryPath, "utf-8");
-		return load(registryContent) as Registry;
+		try {
+			const registryContent = readFileSync(registryPath, "utf-8");
+			return load(registryContent) as Registry;
+		} catch (error) {
+			throw RegistryError.parseFailed(
+				registryPath,
+				error instanceof Error ? error : undefined,
+			);
+		}
 	} else {
-		throw new Error(
-			"Registry must be loaded asynchronously in production mode. Use loadRegistryAsync() instead.",
-		);
+		throw RegistryError.asyncRequired();
 	}
 }
 
