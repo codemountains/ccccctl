@@ -18,11 +18,21 @@ const mockPackageJson = {
 		"Claude Code Custom Commands Control - Manage Claude Code custom commands",
 };
 
+// Mock type for Commander.js Command instance
+interface MockCommand {
+	name: ReturnType<typeof vi.fn>;
+	description: ReturnType<typeof vi.fn>;
+	version: ReturnType<typeof vi.fn>;
+	command: ReturnType<typeof vi.fn>;
+	argument: ReturnType<typeof vi.fn>;
+	option: ReturnType<typeof vi.fn>;
+	action: ReturnType<typeof vi.fn>;
+	parse: ReturnType<typeof vi.fn>;
+}
+
 describe("CLI index", () => {
-	// biome-ignore lint/suspicious/noExplicitAny: Mock object for testing
-	let mockProgram: Record<string, any>;
-	// biome-ignore lint/suspicious/noExplicitAny: Mock object for testing
-	let mockCommandInstance: Record<string, any>;
+	let mockProgram: MockCommand;
+	let mockCommandInstance: MockCommand;
 
 	beforeEach(() => {
 		vi.clearAllMocks();
@@ -36,10 +46,10 @@ describe("CLI index", () => {
 			option: vi.fn().mockReturnThis(),
 			action: vi.fn().mockReturnThis(),
 			parse: vi.fn(),
-		};
+		} as MockCommand;
 
 		mockProgram = mockCommandInstance;
-		mockCommand.mockReturnValue(mockProgram);
+		mockCommand.mockReturnValue(mockProgram as any);
 
 		mockReadFileSync.mockReturnValue(JSON.stringify(mockPackageJson));
 
@@ -147,7 +157,7 @@ describe("CLI index", () => {
 
 		// Reinitialize the program mock
 		mockProgram = mockCommandInstance;
-		mockCommand.mockReturnValue(mockProgram);
+		mockCommand.mockReturnValue(mockProgram as any);
 
 		await import("../src/index.js");
 
