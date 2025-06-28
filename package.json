@@ -24,6 +24,22 @@
   "author": "codemountains",
   "license": "MIT",
   "description": "Claude Code Custom Commands Control - CLI tool for managing Claude Code custom commands",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codemountains/ccccctl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/codemountains/ccccctl/issues"
+  },
+  "homepage": "https://github.com/codemountains/ccccctl#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
   "dependencies": {
     "commander": "^12.0.0",
     "fs-extra": "^11.2.0",
