@@ -1,8 +1,8 @@
-import { loadRegistry } from "../utils/registry.js";
+import { loadRegistryAsync } from "../utils/registry.js";
 
-export function listCommand(): void {
+export async function listCommand(): Promise<void> {
 	try {
-		const registry = loadRegistry();
+		const registry = await loadRegistryAsync();
 
 		console.log("Available commands:");
 		console.log("");
