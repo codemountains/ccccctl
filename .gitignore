@@ -13,5 +13,5 @@ dist
 coverage
 
 # Claude Code
-.claude/secrets.local.json
+.claude/settings.local.json
 CLAUDE.local.md
