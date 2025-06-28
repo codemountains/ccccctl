@@ -51,33 +51,36 @@ describe("listCommand", () => {
 		await listCommand();
 
 		expect(mockLoadRegistryAsync).toHaveBeenCalled();
-		expect(mockConsoleLog).toHaveBeenCalledWith("Available commands:");
+		expect(mockConsoleLog).toHaveBeenCalledWith("Available commands: 3");
 		expect(mockConsoleLog).toHaveBeenCalledWith("");
 
 		// Check that each command is logged with its details
-		expect(mockConsoleLog).toHaveBeenCalledWith("  history");
+		expect(mockConsoleLog).toHaveBeenCalledWith("[CCCCCTL] history");
 		expect(mockConsoleLog).toHaveBeenCalledWith(
-			"    Description: Show prompt history.",
+			"  Description: Show prompt history.",
 		);
-		expect(mockConsoleLog).toHaveBeenCalledWith("    Type: registry_directory");
-
-		expect(mockConsoleLog).toHaveBeenCalledWith("  example");
 		expect(mockConsoleLog).toHaveBeenCalledWith(
-			"    Description: Example command.",
-		);
-		expect(mockConsoleLog).toHaveBeenCalledWith("    Type: github");
-		expect(mockConsoleLog).toHaveBeenCalledWith(
-			"    URL: https://github.com/codemountains/cccc-example/.claude/commands/example.md",
+			"  URL: https://github.com/codemountains/ccccctl/tree/main/registry/commands/history/history.md",
 		);
 
-		expect(mockConsoleLog).toHaveBeenCalledWith("  simple");
+		expect(mockConsoleLog).toHaveBeenCalledWith("[GITHUB] example");
 		expect(mockConsoleLog).toHaveBeenCalledWith(
-			"    Description: Simple command without URL.",
+			"  Description: Example command.",
 		);
-		expect(mockConsoleLog).toHaveBeenCalledWith("    Type: registry_directory");
+		expect(mockConsoleLog).toHaveBeenCalledWith(
+			"  URL: https://github.com/codemountains/cccc-example/.claude/commands/example.md",
+		);
 
-		// Check that empty lines are printed after each command
-		expect(mockConsoleLog).toHaveBeenCalledTimes(15); // 1 header + 1 empty + history(4) + example(5) + simple(4)
+		expect(mockConsoleLog).toHaveBeenCalledWith("[CCCCCTL] simple");
+		expect(mockConsoleLog).toHaveBeenCalledWith(
+			"  Description: Simple command without URL.",
+		);
+		expect(mockConsoleLog).toHaveBeenCalledWith(
+			"  URL: https://github.com/codemountains/ccccctl/tree/main/registry/commands/simple/simple.md",
+		);
+
+		// Check that empty lines are printed after each command (1 header + 1 empty + 3 commands * 4 lines each)
+		expect(mockConsoleLog).toHaveBeenCalledTimes(14);
 	});
 
 	it("should display command without URL correctly", async () => {
@@ -95,14 +98,12 @@ describe("listCommand", () => {
 
 		await listCommand();
 
-		expect(mockConsoleLog).toHaveBeenCalledWith("  simple");
+		expect(mockConsoleLog).toHaveBeenCalledWith("[CCCCCTL] simple");
 		expect(mockConsoleLog).toHaveBeenCalledWith(
-			"    Description: Simple command.",
+			"  Description: Simple command.",
 		);
-		expect(mockConsoleLog).toHaveBeenCalledWith("    Type: registry_directory");
-		// URL line should not be called for commands without URL
-		expect(mockConsoleLog).not.toHaveBeenCalledWith(
-			expect.stringContaining("URL:"),
+		expect(mockConsoleLog).toHaveBeenCalledWith(
+			"  URL: https://github.com/codemountains/ccccctl/tree/main/registry/commands/simple/simple.md",
 		);
 	});
 
@@ -116,7 +117,7 @@ describe("listCommand", () => {
 		await listCommand();
 
 		expect(mockLoadRegistryAsync).toHaveBeenCalled();
-		expect(mockConsoleLog).toHaveBeenCalledWith("Available commands:");
+		expect(mockConsoleLog).toHaveBeenCalledWith("Available commands: 0");
 		expect(mockConsoleLog).toHaveBeenCalledWith("");
 		// Only header and empty line should be called
 		expect(mockConsoleLog).toHaveBeenCalledTimes(2);
@@ -154,13 +155,12 @@ describe("listCommand", () => {
 
 		await listCommand();
 
-		expect(mockConsoleLog).toHaveBeenCalledWith("  github-cmd");
+		expect(mockConsoleLog).toHaveBeenCalledWith("[GITHUB] github-cmd");
 		expect(mockConsoleLog).toHaveBeenCalledWith(
-			"    Description: GitHub command with URL.",
+			"  Description: GitHub command with URL.",
 		);
-		expect(mockConsoleLog).toHaveBeenCalledWith("    Type: github");
 		expect(mockConsoleLog).toHaveBeenCalledWith(
-			"    URL: https://raw.githubusercontent.com/user/repo/main/cmd.md",
+			"  URL: https://raw.githubusercontent.com/user/repo/main/cmd.md",
 		);
 	});
 });

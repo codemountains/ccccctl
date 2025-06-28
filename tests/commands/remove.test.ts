@@ -53,7 +53,7 @@ describe("removeCommand", () => {
 			false,
 		);
 		expect(mockConsoleError).toHaveBeenCalledWith(
-			'Command "nonexistent-command" not found in local commands',
+			'Command "nonexistent-command" not found in project scope',
 		);
 		expect(mockProcessExit).toHaveBeenCalledWith(1);
 	});
@@ -134,7 +134,7 @@ describe("removeCommand", () => {
 
 		expect(mockCommandExists).toHaveBeenCalledWith("test-command", true);
 		expect(mockConsoleError).toHaveBeenCalledWith(
-			'Command "test-command" not found in local commands',
+			'Command "test-command" not found in user scope',
 		);
 		expect(mockProcessExit).toHaveBeenCalledWith(1);
 	});

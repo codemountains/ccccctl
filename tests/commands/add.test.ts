@@ -237,10 +237,10 @@ describe("addCommand", () => {
 	});
 
 	it("should exit with error for invalid command configuration", async () => {
-		const mockCommand: RegistryCommand = {
-			type: "github",
+		const mockCommand: any = {
+			type: "unknown",
 			name: "invalid-command",
-			description: "Invalid command without URL",
+			description: "Invalid command with unknown type",
 		};
 
 		mockFindCommandAsync.mockResolvedValue(mockCommand);

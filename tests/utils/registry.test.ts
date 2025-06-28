@@ -166,7 +166,7 @@ describe("registry utilities", () => {
 			globalThis.fetch = mockFetch;
 
 			await expect(loadRegistryAsync()).rejects.toThrow(
-				"Failed to fetch registry from GitHub: 404 Not Found",
+				"Failed to fetch registry from https://raw.githubusercontent.com/codemountains/ccccctl/main/registry/registry.yml: 404 Not Found",
 			);
 		});
 	});
