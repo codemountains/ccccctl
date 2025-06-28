@@ -1,7 +1,7 @@
 {
   "name": "ccccctl",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "bin": {
     "ccccctl": "dist/index.js"
@@ -10,7 +10,11 @@
     "build": "vite build",
     "dev": "vite build --watch",
     "lint": "biome check .",
-    "lint:fix": "biome check . --write"
+    "lint:fix": "biome check . --write",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "test:ui": "vitest --ui"
   },
   "keywords": [
     "claude-code",
@@ -20,6 +24,22 @@
   "author": "codemountains",
   "license": "MIT",
   "description": "Claude Code Custom Commands Control - CLI tool for managing Claude Code custom commands",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codemountains/ccccctl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/codemountains/ccccctl/issues"
+  },
+  "homepage": "https://github.com/codemountains/ccccctl#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
   "dependencies": {
     "commander": "^12.0.0",
     "fs-extra": "^11.2.0",
@@ -31,8 +51,11 @@
     "@types/fs-extra": "^11.0.4",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.11.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
     "typescript": "^5.3.3",
     "vite": "^7.0.0",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^3.2.4"
   }
 }

@@ -1,13 +1,18 @@
+import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+	ConfigurationError,
+	FileSystemError,
+	isCcccctlError,
+	RegistryError,
+} from "@/types/index.js";
 import {
 	commandExists,
 	copyLocalCommand,
 	downloadCommand,
-	removeCommand,
-} from "../utils/files.js";
-import { findCommandAsync, getRegistryPath } from "../utils/registry.js";
-import { existsSync } from "node:fs";
+} from "@/utils/files.js";
+import { findCommandAsync, getRegistryPath } from "@/utils/registry.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,7 +25,11 @@ export async function addCommand(
 
 	// Check for exclusive options
 	if (options.project && options.user) {
-		console.error("Cannot specify both --project and --user options");
+		const error = ConfigurationError.invalidOptionsCombination([
+			"--project",
+			"--user",
+		]);
+		console.error(error.message);
 		process.exit(1);
 	}
 
@@ -30,13 +39,16 @@ export async function addCommand(
 	try {
 		const command = await findCommandAsync(commandName);
 		if (!command) {
-			console.error(`Command "${commandName}" not found in registry`);
+			const error = RegistryError.commandNotFound(commandName);
+			console.error(error.message);
 			process.exit(1);
 		}
 
 		if (commandExists(targetName, useUserDir)) {
-			console.log(`Removing existing command "${targetName}"`);
-			removeCommand(targetName, useUserDir);
+			const scope = useUserDir ? "user" : "project";
+			const error = FileSystemError.commandExists(targetName, scope);
+			console.error(error.message);
+			process.exit(1);
 		}
 
 		if (command.type === "registry_directory") {
@@ -59,15 +71,20 @@ export async function addCommand(
 				await downloadCommand(githubUrl, targetName, useUserDir);
 				console.log(`Added command "${targetName}" from GitHub registry`);
 			}
-		} else if (command.type === "github" && command.url) {
+		} else if (command.type === "github") {
 			await downloadCommand(command.url, targetName, useUserDir);
 			console.log(`Added command "${targetName}" from ${command.url}`);
 		} else {
-			console.error(`Invalid command configuration for "${commandName}"`);
+			const error = ConfigurationError.invalidCommandConfig(commandName);
+			console.error(error.message);
 			process.exit(1);
 		}
-	} catch (error) {
-		console.error(`Failed to add command "${commandName}":`, error);
+	} catch (error: unknown) {
+		if (isCcccctlError(error)) {
+			console.error(error.message);
+		} else {
+			console.error(`Failed to add command "${commandName}":`, error);
+		}
 		process.exit(1);
 	}
 }
