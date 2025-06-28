@@ -11,3 +11,7 @@ Thumbs.db
 node_modules
 dist
 coverage
+
+# Claude Code
+.claude/secrets.local.json
+CLAUDE.local.md
