@@ -1,7 +1,7 @@
 import {
 	commandExists,
 	removeCommand as removeCommandFile,
-} from "../utils/files.js";
+} from "@/utils/files.js";
 
 export function removeCommand(
 	commandName: string,

@@ -1,13 +1,12 @@
+import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
 	commandExists,
 	copyLocalCommand,
 	downloadCommand,
-	removeCommand,
-} from "../utils/files.js";
-import { findCommandAsync, getRegistryPath } from "../utils/registry.js";
-import { existsSync } from "node:fs";
+} from "@/utils/files.js";
+import { findCommandAsync, getRegistryPath } from "@/utils/registry.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -35,8 +34,9 @@ export async function addCommand(
 		}
 
 		if (commandExists(targetName, useUserDir)) {
-			console.log(`Removing existing command "${targetName}"`);
-			removeCommand(targetName, useUserDir);
+			const scope = useUserDir ? "user" : "project";
+			console.error(`Command "${targetName}" already exists in ${scope} scope. Please remove it first using: ccccctl remove ${targetName}${useUserDir ? " --user" : ""}`);
+			process.exit(1);
 		}
 
 		if (command.type === "registry_directory") {

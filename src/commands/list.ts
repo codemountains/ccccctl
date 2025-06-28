@@ -1,4 +1,4 @@
-import { loadRegistryAsync } from "../utils/registry.js";
+import { loadRegistryAsync } from "@/utils/registry.js";
 
 export async function listCommand(): Promise<void> {
 	try {
