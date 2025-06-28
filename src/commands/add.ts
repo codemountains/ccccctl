@@ -6,7 +6,8 @@ import {
 	downloadCommand,
 	removeCommand,
 } from "../utils/files.js";
-import { findCommand } from "../utils/registry.js";
+import { findCommandAsync, getRegistryPath } from "../utils/registry.js";
+import { existsSync } from "node:fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,7 +28,7 @@ export async function addCommand(
 	const useUserDir = options.user === true;
 
 	try {
-		const command = findCommand(commandName);
+		const command = await findCommandAsync(commandName);
 		if (!command) {
 			console.error(`Command "${commandName}" not found in registry`);
 			process.exit(1);
@@ -39,14 +40,25 @@ export async function addCommand(
 		}
 
 		if (command.type === "registry_directory") {
-			const sourcePath = join(
-				__dirname,
-				"../../registry/commands",
-				commandName,
-				`${commandName}.md`,
-			);
-			copyLocalCommand(sourcePath, targetName, useUserDir);
-			console.log(`Added command "${targetName}" from local registry`);
+			// Check if we're in development mode (local registry exists)
+			const localRegistryPath = getRegistryPath();
+			if (existsSync(localRegistryPath)) {
+				// Development mode: use local file
+				const registryDir = dirname(localRegistryPath);
+				const sourcePath = join(
+					registryDir,
+					"commands",
+					commandName,
+					`${commandName}.md`,
+				);
+				copyLocalCommand(sourcePath, targetName, useUserDir);
+				console.log(`Added command "${targetName}" from local registry`);
+			} else {
+				// Production mode: download from GitHub
+				const githubUrl = `https://raw.githubusercontent.com/codemountains/ccccctl/main/registry/commands/${commandName}/${commandName}.md`;
+				await downloadCommand(githubUrl, targetName, useUserDir);
+				console.log(`Added command "${targetName}" from GitHub registry`);
+			}
 		} else if (command.type === "github" && command.url) {
 			await downloadCommand(command.url, targetName, useUserDir);
 			console.log(`Added command "${targetName}" from ${command.url}`);
