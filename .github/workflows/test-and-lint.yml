@@ -1,7 +1,12 @@
 name: Test and Lint
 
 on:
+  push:
+    branches-ignore:
+      - main
   pull_request:
+  workflow_dispatch:
+  workflow_call:
 
 jobs:
   test-and-lint:
