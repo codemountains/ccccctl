@@ -1,8 +1,0 @@
-commands:
-  - type: github
-    name: history
-    author: codemountains
-    description: |
-      Outputs a summary of interactions in Claude Code sessions.
-      This command is useful for reviewing the history of Claude Code sessions.
-    url: https://github.com/codemountains/ccccctl-commands/blob/main/.claude/commands/history.md

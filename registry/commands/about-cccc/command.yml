@@ -1,5 +1,0 @@
-commands:
-  - type: ccccctl_registry
-    name: about-cccc
-    author: codemountains
-    description: Explains about Claude Code custom slash commands.

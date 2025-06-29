@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const REGISTRY_URL =
-	"https://raw.githubusercontent.com/codemountains/ccccctl/main/registry/registry.yml";
+	"https://raw.githubusercontent.com/codemountains/ccccctl-registry/main/registry.yml";
 
 // Simple in-memory cache
 let registryCache: Registry | null = null;
@@ -22,19 +22,19 @@ export function clearRegistryCache(): void {
 
 export function getRegistryPath(): string {
 	// Try to find the registry.yml file from the current working directory or from the package root
-	const cwdPath = join(process.cwd(), "registry/registry.yml");
+	const cwdPath = join(process.cwd(), ".registry/registry.yml");
 	if (existsSync(cwdPath)) {
 		return cwdPath;
 	}
 
 	// For development, look relative to the dist directory
-	return join(__dirname, "../../registry/registry.yml");
+	return join(__dirname, "../../.registry/registry.yml");
 }
 
 function isDevelopmentMode(): boolean {
-	// Check if we're in development (registry directory exists locally)
-	const cwdPath = join(process.cwd(), "registry/registry.yml");
-	const distPath = join(__dirname, "../../registry/registry.yml");
+	// Check if we're in development (.registry directory exists locally)
+	const cwdPath = join(process.cwd(), ".registry/registry.yml");
+	const distPath = join(__dirname, "../../.registry/registry.yml");
 	return existsSync(cwdPath) || existsSync(distPath);
 }
 

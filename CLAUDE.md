@@ -60,12 +60,14 @@ ccccctl -V
 ### Registry System
 
 The tool supports two command sources:
-- `registry_directory`: Commands stored in local `registry/commands/` directory
+- `ccccctl_registry`: Commands stored in local `.registry/commands/` directory (development only)
 - `github`: Commands fetched from external GitHub repositories via URL
 
 Registry resolution follows this priority:
-1. Development mode: Uses local `registry/registry.yml` if present
-2. Production mode: Fetches from `https://raw.githubusercontent.com/codemountains/ccccctl/main/registry/registry.yml`
+1. Development mode: Uses local `.registry/registry.yml` if present
+2. Production mode: Fetches from `https://raw.githubusercontent.com/codemountains/ccccctl-registry/main/registry.yml`
+
+Note: The `.registry/` directory is for development purposes only and is excluded from version control.
 
 ### Command Storage
 

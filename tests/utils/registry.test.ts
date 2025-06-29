@@ -57,7 +57,7 @@ describe("registry utilities", () => {
 
 	describe("getRegistryPath", () => {
 		it("should return current working directory path when it exists", () => {
-			const cwdPath = "/workspace/ccccctl/registry/registry.yml";
+			const cwdPath = "/workspace/ccccctl/.registry/registry.yml";
 			mockExistsSync.mockImplementation((path) => path === cwdPath);
 
 			const result = getRegistryPath();
@@ -68,18 +68,18 @@ describe("registry utilities", () => {
 			mockExistsSync.mockReturnValue(false);
 
 			const result = getRegistryPath();
-			expect(result).toContain("/registry/registry.yml");
+			expect(result).toContain("/.registry/registry.yml");
 		});
 	});
 
 	describe("loadRegistry", () => {
 		it("should load registry from local file in development mode", () => {
-			const registryPath = "/workspaces/ccccctl/registry/registry.yml";
+			const registryPath = "/workspaces/ccccctl/.registry/registry.yml";
 			// Mock development mode detection - isDevelopmentMode checks both cwd and dist paths
 			mockExistsSync.mockImplementation((path) => {
 				return (
-					path === "/workspaces/ccccctl/registry/registry.yml" ||
-					(typeof path === 'string' && path.endsWith("registry/registry.yml"))
+					path === "/workspaces/ccccctl/.registry/registry.yml" ||
+					(typeof path === 'string' && path.endsWith(".registry/registry.yml"))
 				);
 			});
 			mockReadFileSync.mockReturnValue("yaml content");
@@ -94,7 +94,7 @@ describe("registry utilities", () => {
 
 		it("should throw error when registry file not found in development mode", () => {
 			// Mock to simulate development mode but file doesn't exist
-			const registryPath = "/workspaces/ccccctl/registry/registry.yml";
+			const registryPath = "/workspaces/ccccctl/.registry/registry.yml";
 			mockExistsSync.mockImplementation((path) => {
 				if (path === registryPath) {
 					// First call for isDevelopmentMode returns true, second call for file existence returns false
@@ -117,12 +117,12 @@ describe("registry utilities", () => {
 
 	describe("loadRegistryAsync", () => {
 		it("should load registry from local file in development mode", async () => {
-			const registryPath = "/workspaces/ccccctl/registry/registry.yml";
+			const registryPath = "/workspaces/ccccctl/.registry/registry.yml";
 			// Mock development mode detection - isDevelopmentMode checks both cwd and dist paths
 			mockExistsSync.mockImplementation((path) => {
 				return (
-					path === "/workspaces/ccccctl/registry/registry.yml" ||
-					(typeof path === 'string' && path.endsWith("registry/registry.yml"))
+					path === "/workspaces/ccccctl/.registry/registry.yml" ||
+					(typeof path === 'string' && path.endsWith(".registry/registry.yml"))
 				);
 			});
 			mockReadFileSync.mockReturnValue("yaml content");
@@ -149,7 +149,7 @@ describe("registry utilities", () => {
 			const result = await loadRegistryAsync();
 
 			expect(mockFetch).toHaveBeenCalledWith(
-				"https://raw.githubusercontent.com/codemountains/ccccctl/main/registry/registry.yml",
+				"https://raw.githubusercontent.com/codemountains/ccccctl-registry/main/registry.yml",
 				{ headers: { "User-Agent": "ccccctl" } },
 			);
 			expect(mockLoad).toHaveBeenCalledWith("yaml content");
@@ -168,7 +168,7 @@ describe("registry utilities", () => {
 			globalThis.fetch = mockFetch;
 
 			await expect(loadRegistryAsync()).rejects.toThrow(
-				"Failed to fetch registry from https://raw.githubusercontent.com/codemountains/ccccctl/main/registry/registry.yml: 404 Not Found",
+				"Failed to fetch registry from https://raw.githubusercontent.com/codemountains/ccccctl-registry/main/registry.yml: 404 Not Found",
 			);
 		});
 	});
@@ -178,8 +178,8 @@ describe("registry utilities", () => {
 			// Mock development mode detection - isDevelopmentMode checks both cwd and dist paths
 			mockExistsSync.mockImplementation((path) => {
 				return (
-					path === "/workspaces/ccccctl/registry/registry.yml" ||
-					(typeof path === 'string' && path.endsWith("registry/registry.yml"))
+					path === "/workspaces/ccccctl/.registry/registry.yml" ||
+					(typeof path === 'string' && path.endsWith(".registry/registry.yml"))
 				);
 			});
 			mockReadFileSync.mockReturnValue("yaml content");
@@ -199,8 +199,8 @@ describe("registry utilities", () => {
 			// Mock development mode detection - isDevelopmentMode checks both cwd and dist paths
 			mockExistsSync.mockImplementation((path) => {
 				return (
-					path === "/workspaces/ccccctl/registry/registry.yml" ||
-					(typeof path === 'string' && path.endsWith("registry/registry.yml"))
+					path === "/workspaces/ccccctl/.registry/registry.yml" ||
+					(typeof path === 'string' && path.endsWith(".registry/registry.yml"))
 				);
 			});
 			mockReadFileSync.mockReturnValue("yaml content");
@@ -217,8 +217,8 @@ describe("registry utilities", () => {
 			// Mock development mode detection - isDevelopmentMode checks both cwd and dist paths
 			mockExistsSync.mockImplementation((path) => {
 				return (
-					path === "/workspaces/ccccctl/registry/registry.yml" ||
-					(typeof path === 'string' && path.endsWith("registry/registry.yml"))
+					path === "/workspaces/ccccctl/.registry/registry.yml" ||
+					(typeof path === 'string' && path.endsWith(".registry/registry.yml"))
 				);
 			});
 			mockReadFileSync.mockReturnValue("yaml content");
@@ -239,8 +239,8 @@ describe("registry utilities", () => {
 			// Mock development mode detection - isDevelopmentMode checks both cwd and dist paths
 			mockExistsSync.mockImplementation((path) => {
 				return (
-					path === "/workspaces/ccccctl/registry/registry.yml" ||
-					(typeof path === 'string' && path.endsWith("registry/registry.yml"))
+					path === "/workspaces/ccccctl/.registry/registry.yml" ||
+					(typeof path === 'string' && path.endsWith(".registry/registry.yml"))
 				);
 			});
 			mockReadFileSync.mockReturnValue("yaml content");

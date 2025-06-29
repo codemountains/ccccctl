@@ -124,14 +124,14 @@ describe("addCommand", () => {
 		mockFindCommandAsync.mockResolvedValue(mockCommand);
 		mockCommandExists.mockReturnValue(false);
 		mockGetRegistryPath.mockReturnValue(
-			"/workspace/ccccctl/registry/registry.yml",
+			"/workspace/ccccctl/.registry/registry.yml",
 		);
 		mockExistsSync.mockReturnValue(true);
 
 		await addCommand("test-command", {});
 
 		expect(mockCopyLocalCommand).toHaveBeenCalledWith(
-			"/workspace/ccccctl/registry/commands/test-command/test-command.md",
+			"/workspace/ccccctl/.registry/commands/test-command/test-command.md",
 			"test-command",
 			false,
 		);
@@ -151,14 +151,14 @@ describe("addCommand", () => {
 		mockFindCommandAsync.mockResolvedValue(mockCommand);
 		mockCommandExists.mockReturnValue(false);
 		mockGetRegistryPath.mockReturnValue(
-			"/workspace/ccccctl/registry/registry.yml",
+			"/workspace/ccccctl/.registry/registry.yml",
 		);
 		mockExistsSync.mockReturnValue(false);
 
 		await addCommand("test-command", {});
 
 		expect(mockDownloadCommand).toHaveBeenCalledWith(
-			"https://raw.githubusercontent.com/codemountains/ccccctl/main/registry/commands/test-command/test-command.md",
+			"https://raw.githubusercontent.com/codemountains/ccccctl-registry/main/commands/test-command/test-command.md",
 			"test-command",
 			false,
 		);
@@ -202,14 +202,14 @@ describe("addCommand", () => {
 		mockFindCommandAsync.mockResolvedValue(mockCommand);
 		mockCommandExists.mockReturnValue(false);
 		mockGetRegistryPath.mockReturnValue(
-			"/workspace/ccccctl/registry/registry.yml",
+			"/workspace/ccccctl/.registry/registry.yml",
 		);
 		mockExistsSync.mockReturnValue(true);
 
 		await addCommand("test-command", { name: "my-custom-name" });
 
 		expect(mockCopyLocalCommand).toHaveBeenCalledWith(
-			"/workspace/ccccctl/registry/commands/test-command/test-command.md",
+			"/workspace/ccccctl/.registry/commands/test-command/test-command.md",
 			"my-custom-name",
 			false,
 		);
@@ -229,7 +229,7 @@ describe("addCommand", () => {
 		mockFindCommandAsync.mockResolvedValue(mockCommand);
 		mockCommandExists.mockReturnValue(false);
 		mockGetRegistryPath.mockReturnValue(
-			"/workspace/ccccctl/registry/registry.yml",
+			"/workspace/ccccctl/.registry/registry.yml",
 		);
 		mockExistsSync.mockReturnValue(true);
 
@@ -237,7 +237,7 @@ describe("addCommand", () => {
 
 		expect(mockCommandExists).toHaveBeenCalledWith("test-command", true);
 		expect(mockCopyLocalCommand).toHaveBeenCalledWith(
-			"/workspace/ccccctl/registry/commands/test-command/test-command.md",
+			"/workspace/ccccctl/.registry/commands/test-command/test-command.md",
 			"test-command",
 			true,
 		);
@@ -275,7 +275,7 @@ describe("addCommand", () => {
 		mockFindCommandAsync.mockResolvedValue(mockCommand);
 		mockCommandExists.mockReturnValue(false);
 		mockGetRegistryPath.mockReturnValue(
-			"/workspace/ccccctl/registry/registry.yml",
+			"/workspace/ccccctl/.registry/registry.yml",
 		);
 		mockExistsSync.mockReturnValue(true);
 		mockCopyLocalCommand.mockImplementation(() => {
