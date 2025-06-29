@@ -63,7 +63,7 @@ describe("listCommand", () => {
 			"  Description: Show prompt history.",
 		);
 		expect(mockConsoleLog).toHaveBeenCalledWith(
-			"  URL: https://github.com/codemountains/ccccctl/tree/main/registry/commands/history/history.md",
+			"  URL: https://github.com/codemountains/ccccctl-registry/tree/main/commands/history/history.md",
 		);
 
 		expect(mockConsoleLog).toHaveBeenCalledWith("[GITHUB] example");
@@ -79,7 +79,7 @@ describe("listCommand", () => {
 			"  Description: Simple command without URL.",
 		);
 		expect(mockConsoleLog).toHaveBeenCalledWith(
-			"  URL: https://github.com/codemountains/ccccctl/tree/main/registry/commands/simple/simple.md",
+			"  URL: https://github.com/codemountains/ccccctl-registry/tree/main/commands/simple/simple.md",
 		);
 
 		// Check that empty lines are printed after each command (1 header + 1 empty + 3 commands * 5 lines each)
@@ -107,7 +107,7 @@ describe("listCommand", () => {
 			"  Description: Simple command.",
 		);
 		expect(mockConsoleLog).toHaveBeenCalledWith(
-			"  URL: https://github.com/codemountains/ccccctl/tree/main/registry/commands/simple/simple.md",
+			"  URL: https://github.com/codemountains/ccccctl-registry/tree/main/commands/simple/simple.md",
 		);
 	});
 

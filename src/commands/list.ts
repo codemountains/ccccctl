@@ -25,8 +25,8 @@ function getCommandTypeLabel(type: string): string {
 	}
 }
 
-function generateCcccctlUrl(commandName: string): string {
-	return `https://github.com/codemountains/ccccctl/tree/main/registry/commands/${commandName}/${commandName}.md`;
+function generateRegistryUrl(commandName: string): string {
+	return `https://github.com/codemountains/ccccctl-registry/tree/main/commands/${commandName}/${commandName}.md`;
 }
 
 export async function listCommand(): Promise<void> {
@@ -45,7 +45,7 @@ export async function listCommand(): Promise<void> {
 			if (command.type === "github") {
 				console.log(`  URL: ${command.url}`);
 			} else if (command.type === "ccccctl_registry") {
-				console.log(`  URL: ${generateCcccctlUrl(command.name)}`);
+				console.log(`  URL: ${generateRegistryUrl(command.name)}`);
 			}
 			console.log("");
 		});
