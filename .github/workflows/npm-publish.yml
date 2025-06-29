@@ -1,0 +1,82 @@
+name: Publish to NPM
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version-changed: ${{ steps.check.outputs.changed }}
+      current-version: ${{ steps.check.outputs.current-version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check if package.json version changed
+        id: check
+        run: |
+          current_version=$(node -p "require('./package.json').version")
+          echo "current-version=$current_version" >> $GITHUB_OUTPUT
+          
+          if git diff HEAD~1 HEAD --name-only | grep -q "package.json"; then
+            if git diff HEAD~1 HEAD package.json | grep -q '"version"'; then
+              echo "changed=true" >> $GITHUB_OUTPUT
+              echo "Package version changed to $current_version"
+            else
+              echo "changed=false" >> $GITHUB_OUTPUT
+              echo "Package.json changed but version did not change"
+            fi
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "Package.json did not change"
+          fi
+
+  test-and-lint:
+    if: needs.check-version.outputs.version-changed == 'true'
+    needs: check-version
+    uses: ./.github/workflows/test-and-lint.yml
+
+  publish:
+    needs: [check-version, test-and-lint]
+    if: needs.check-version.outputs.version-changed == 'true'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build package
+        run: npm run build
+        
+      - name: Publish to NPM
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ needs.check-version.outputs.current-version }}
+          release_name: Release v${{ needs.check-version.outputs.current-version }}
+          body: |
+            Automated release for version ${{ needs.check-version.outputs.current-version }}
+          draft: false
+          prerelease: false

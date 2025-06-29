@@ -2,11 +2,11 @@ import {
 	ConfigurationError,
 	FileSystemError,
 	isCcccctlError,
-} from "@/types/index.js";
+} from '@/types/index.js';
 import {
 	commandExists,
 	removeCommand as removeCommandFile,
-} from "@/utils/files.js";
+} from '@/utils/files.js';
 
 export function removeCommand(
 	commandName: string,
@@ -15,8 +15,8 @@ export function removeCommand(
 	// Check for exclusive options
 	if (options.project && options.user) {
 		const error = ConfigurationError.invalidOptionsCombination([
-			"--project",
-			"--user",
+			'--project',
+			'--user',
 		]);
 		console.error(error.message);
 		process.exit(1);
@@ -27,7 +27,7 @@ export function removeCommand(
 
 	try {
 		if (!commandExists(commandName, useUserDir)) {
-			const scope = useUserDir ? "user" : "project";
+			const scope = useUserDir ? 'user' : 'project';
 			const error = FileSystemError.commandNotFound(commandName, scope);
 			console.error(error.message);
 			process.exit(1);

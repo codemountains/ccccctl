@@ -1,30 +1,30 @@
 export enum ErrorCode {
 	// Registry errors
-	REGISTRY_NOT_FOUND = "REGISTRY_NOT_FOUND",
-	REGISTRY_FETCH_FAILED = "REGISTRY_FETCH_FAILED",
-	REGISTRY_PARSE_FAILED = "REGISTRY_PARSE_FAILED",
-	COMMAND_NOT_FOUND_IN_REGISTRY = "COMMAND_NOT_FOUND_IN_REGISTRY",
-	REGISTRY_ASYNC_REQUIRED = "REGISTRY_ASYNC_REQUIRED",
+	REGISTRY_NOT_FOUND = 'REGISTRY_NOT_FOUND',
+	REGISTRY_FETCH_FAILED = 'REGISTRY_FETCH_FAILED',
+	REGISTRY_PARSE_FAILED = 'REGISTRY_PARSE_FAILED',
+	COMMAND_NOT_FOUND_IN_REGISTRY = 'COMMAND_NOT_FOUND_IN_REGISTRY',
+	REGISTRY_ASYNC_REQUIRED = 'REGISTRY_ASYNC_REQUIRED',
 
 	// File system errors
-	COMMAND_ALREADY_EXISTS = "COMMAND_ALREADY_EXISTS",
-	COMMAND_NOT_FOUND_LOCAL = "COMMAND_NOT_FOUND_LOCAL",
-	FILE_COPY_FAILED = "FILE_COPY_FAILED",
-	FILE_WRITE_FAILED = "FILE_WRITE_FAILED",
-	DIRECTORY_CREATE_FAILED = "DIRECTORY_CREATE_FAILED",
+	COMMAND_ALREADY_EXISTS = 'COMMAND_ALREADY_EXISTS',
+	COMMAND_NOT_FOUND_LOCAL = 'COMMAND_NOT_FOUND_LOCAL',
+	FILE_COPY_FAILED = 'FILE_COPY_FAILED',
+	FILE_WRITE_FAILED = 'FILE_WRITE_FAILED',
+	DIRECTORY_CREATE_FAILED = 'DIRECTORY_CREATE_FAILED',
 
 	// Network errors
-	NETWORK_REQUEST_FAILED = "NETWORK_REQUEST_FAILED",
-	DOWNLOAD_FAILED = "DOWNLOAD_FAILED",
+	NETWORK_REQUEST_FAILED = 'NETWORK_REQUEST_FAILED',
+	DOWNLOAD_FAILED = 'DOWNLOAD_FAILED',
 
 	// Configuration errors
-	INVALID_OPTIONS_COMBINATION = "INVALID_OPTIONS_COMBINATION",
-	INVALID_COMMAND_CONFIG = "INVALID_COMMAND_CONFIG",
+	INVALID_OPTIONS_COMBINATION = 'INVALID_OPTIONS_COMBINATION',
+	INVALID_COMMAND_CONFIG = 'INVALID_COMMAND_CONFIG',
 
 	// Validation errors
-	INVALID_COMMAND_NAME = "INVALID_COMMAND_NAME",
-	INVALID_URL = "INVALID_URL",
-	REGISTRY_VALIDATION_FAILED = "REGISTRY_VALIDATION_FAILED",
+	INVALID_COMMAND_NAME = 'INVALID_COMMAND_NAME',
+	INVALID_URL = 'INVALID_URL',
+	REGISTRY_VALIDATION_FAILED = 'REGISTRY_VALIDATION_FAILED',
 }
 
 export interface ErrorContext {
@@ -63,7 +63,7 @@ export class RegistryError extends CcccctlError {
 		statusText?: string,
 	): RegistryError {
 		return new RegistryError(
-			`Failed to fetch registry from ${url}${status ? `: ${status} ${statusText}` : ""}`,
+			`Failed to fetch registry from ${url}${status ? `: ${status} ${statusText}` : ''}`,
 			ErrorCode.REGISTRY_FETCH_FAILED,
 			{ url, status, statusText },
 		);
@@ -95,7 +95,7 @@ export class RegistryError extends CcccctlError {
 
 	static asyncRequired(): RegistryError {
 		return new RegistryError(
-			"Registry must be loaded asynchronously in production mode. Use loadRegistryAsync() instead.",
+			'Registry must be loaded asynchronously in production mode. Use loadRegistryAsync() instead.',
 			ErrorCode.REGISTRY_ASYNC_REQUIRED,
 		);
 	}
@@ -108,10 +108,10 @@ export class FileSystemError extends CcccctlError {
 
 	static commandExists(
 		commandName: string,
-		scope: "user" | "project",
+		scope: 'user' | 'project',
 	): FileSystemError {
 		return new FileSystemError(
-			`Command "${commandName}" already exists in ${scope} scope. Please remove it first using: ccccctl remove ${commandName}${scope === "user" ? " --user" : ""}`,
+			`Command "${commandName}" already exists in ${scope} scope. Please remove it first using: ccccctl remove ${commandName}${scope === 'user' ? ' --user' : ''}`,
 			ErrorCode.COMMAND_ALREADY_EXISTS,
 			{ commandName, scope },
 		);
@@ -119,7 +119,7 @@ export class FileSystemError extends CcccctlError {
 
 	static commandNotFound(
 		commandName: string,
-		scope: "user" | "project",
+		scope: 'user' | 'project',
 	): FileSystemError {
 		return new FileSystemError(
 			`Command "${commandName}" not found in ${scope} scope`,
@@ -168,7 +168,7 @@ export class NetworkError extends CcccctlError {
 		statusText?: string,
 	): NetworkError {
 		return new NetworkError(
-			`Network request failed for ${url}${status ? `: ${status} ${statusText}` : ""}`,
+			`Network request failed for ${url}${status ? `: ${status} ${statusText}` : ''}`,
 			ErrorCode.NETWORK_REQUEST_FAILED,
 			{ url, status, statusText },
 		);
@@ -180,7 +180,7 @@ export class NetworkError extends CcccctlError {
 		statusText?: string,
 	): NetworkError {
 		return new NetworkError(
-			`Failed to download command from ${url}${status ? `: ${status} ${statusText}` : ""}`,
+			`Failed to download command from ${url}${status ? `: ${status} ${statusText}` : ''}`,
 			ErrorCode.DOWNLOAD_FAILED,
 			{ url, status, statusText },
 		);
@@ -194,7 +194,7 @@ export class ConfigurationError extends CcccctlError {
 
 	static invalidOptionsCombination(options: string[]): ConfigurationError {
 		return new ConfigurationError(
-			`Cannot specify both ${options.join(" and ")} options`,
+			`Cannot specify both ${options.join(' and ')} options`,
 			ErrorCode.INVALID_OPTIONS_COMBINATION,
 			{ options },
 		);

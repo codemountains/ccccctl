@@ -12,8 +12,10 @@
     "lint": "biome check .",
     "lint:fix": "biome check . --write",
     "test": "vitest",
+    "test:run": "vitest --run",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest --coverage",
+    "test:coverage:run": "vitest --coverage --run",
     "test:ui": "vitest --ui",
     "setup:dev": "node scripts/setup-dev.js",
     "reset:dev": "node scripts/reset-dev.js"

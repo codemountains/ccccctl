@@ -7,6 +7,11 @@
   "formatter": {
     "enabled": true
   },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
   "json": {
     "parser": {
       "allowComments": false
