@@ -27,13 +27,15 @@ globalThis.fetch = vi.fn();
 const mockRegistry: Registry = {
 	commands: [
 		{
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "history",
+			author: "test-author",
 			description: "Show prompt history.",
 		},
 		{
 			type: "github",
 			name: "example",
+			author: "github-author",
 			description: "Example command.",
 			url: "https://github.com/codemountains/cccc-example/.claude/commands/example.md",
 		},
@@ -186,8 +188,9 @@ describe("registry utilities", () => {
 			const result = findCommand("history");
 
 			expect(result).toEqual({
-				type: "registry_directory",
+				type: "ccccctl_registry",
 				name: "history",
+				author: "test-author",
 				description: "Show prompt history.",
 			});
 		});
@@ -226,6 +229,7 @@ describe("registry utilities", () => {
 			expect(result).toEqual({
 				type: "github",
 				name: "example",
+				author: "github-author",
 				description: "Example command.",
 				url: "https://github.com/codemountains/cccc-example/.claude/commands/example.md",
 			});

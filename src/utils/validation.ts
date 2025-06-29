@@ -22,6 +22,10 @@ export function validateRegistryCommand(
 		throw new Error(`${prefix} must have a non-empty name`);
 	}
 
+	if (typeof obj.author !== "string" || obj.author.trim() === "") {
+		throw new Error(`${prefix} must have a non-empty author`);
+	}
+
 	if (typeof obj.description !== "string" || obj.description.trim() === "") {
 		throw new Error(`${prefix} must have a non-empty description`);
 	}
@@ -32,10 +36,11 @@ export function validateRegistryCommand(
 
 	// Validate based on command type
 	switch (obj.type) {
-		case "registry_directory":
+		case "ccccctl_registry":
 			return {
-				type: "registry_directory",
+				type: "ccccctl_registry",
 				name: obj.name,
+				author: obj.author,
 				description: obj.description,
 			};
 
@@ -48,13 +53,14 @@ export function validateRegistryCommand(
 			return {
 				type: "github",
 				name: obj.name,
+				author: obj.author,
 				description: obj.description,
 				url: obj.url,
 			};
 
 		default:
 			throw new Error(
-				`${prefix} has invalid type "${obj.type}". Must be "registry_directory" or "github"`,
+				`${prefix} has invalid type "${obj.type}". Must be "ccccctl_registry" or "github"`,
 			);
 	}
 }

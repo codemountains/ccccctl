@@ -71,8 +71,9 @@ describe("addCommand", () => {
 
 	it("should exit with error when command already exists in project scope", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
@@ -92,8 +93,9 @@ describe("addCommand", () => {
 
 	it("should exit with error when command already exists in user scope", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
@@ -111,10 +113,11 @@ describe("addCommand", () => {
 		expect(mockProcessExit).toHaveBeenCalledWith(1);
 	});
 
-	it("should add registry_directory command from local registry in development mode", async () => {
+	it("should add ccccctl_registry command from local registry in development mode", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
@@ -137,10 +140,11 @@ describe("addCommand", () => {
 		);
 	});
 
-	it("should add registry_directory command from GitHub in production mode", async () => {
+	it("should add ccccctl_registry command from GitHub in production mode", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
@@ -167,6 +171,7 @@ describe("addCommand", () => {
 		const mockCommand: RegistryCommand = {
 			type: "github",
 			name: "custom-command",
+			author: "custom-author",
 			description: "Custom command",
 			url: "https://github.com/user/repo/.claude/commands/custom.md",
 		};
@@ -188,8 +193,9 @@ describe("addCommand", () => {
 
 	it("should use custom name when --name option is provided", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
@@ -214,8 +220,9 @@ describe("addCommand", () => {
 
 	it("should use user directory when --user option is true", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
@@ -240,6 +247,7 @@ describe("addCommand", () => {
 		const mockCommand: any = {
 			type: "unknown",
 			name: "invalid-command",
+			author: "invalid-author",
 			description: "Invalid command with unknown type",
 		};
 
@@ -258,8 +266,9 @@ describe("addCommand", () => {
 
 	it("should exit with error when command addition fails", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 

@@ -60,13 +60,13 @@ describe("registry validation integration", () => {
 			text: async () => `
 commands:
   - name: test
-    # missing type and description
+    # missing type, author and description
 `,
 		});
 		globalThis.fetch = mockFetch;
 
 		await expect(loadRegistryAsync()).rejects.toThrow(RegistryError);
-		await expect(loadRegistryAsync()).rejects.toThrow("Command at index 0 must have a non-empty description");
+		await expect(loadRegistryAsync()).rejects.toThrow("Command at index 0 must have a non-empty author");
 	});
 
 	test("should throw validation error for github command without url", async () => {
@@ -77,6 +77,7 @@ commands:
 commands:
   - type: github
     name: test-command
+    author: test-author
     description: Test description
     # missing url
 `,
@@ -95,6 +96,7 @@ commands:
 commands:
   - type: invalid-type
     name: test-command
+    author: test-author
     description: Test description
 `,
 		});
@@ -110,11 +112,13 @@ commands:
 			ok: true,
 			text: async () => `
 commands:
-  - type: registry_directory
+  - type: ccccctl_registry
     name: duplicate-name
+    author: author1
     description: First command
   - type: github
     name: duplicate-name
+    author: author2
     description: Second command
     url: https://example.com/test.md
 `,
@@ -131,11 +135,13 @@ commands:
 			ok: true,
 			text: async () => `
 commands:
-  - type: registry_directory
+  - type: ccccctl_registry
     name: local-command
+    author: local-author
     description: Local command description
   - type: github
     name: github-command
+    author: github-author
     description: GitHub command description
     url: https://example.com/test.md
 `,
@@ -147,13 +153,15 @@ commands:
 		expect(registry).toEqual({
 			commands: [
 				{
-					type: "registry_directory",
+					type: "ccccctl_registry",
 					name: "local-command",
+					author: "local-author",
 					description: "Local command description",
 				},
 				{
 					type: "github",
 					name: "github-command",
+					author: "github-author",
 					description: "GitHub command description",
 					url: "https://example.com/test.md",
 				},

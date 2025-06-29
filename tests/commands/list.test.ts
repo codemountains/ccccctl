@@ -18,19 +18,22 @@ const mockProcessExit = vi.spyOn(process, "exit").mockImplementation(() => {
 const mockRegistry: Registry = {
 	commands: [
 		{
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "history",
+			author: "test-author",
 			description: "Show prompt history.",
 		},
 		{
 			type: "github",
 			name: "example",
+			author: "github-author",
 			description: "Example command.",
 			url: "https://github.com/codemountains/cccc-example/.claude/commands/example.md",
 		},
 		{
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "simple",
+			author: "simple-author",
 			description: "Simple command without URL.",
 		},
 	],
@@ -79,16 +82,17 @@ describe("listCommand", () => {
 			"  URL: https://github.com/codemountains/ccccctl/tree/main/registry/commands/simple/simple.md",
 		);
 
-		// Check that empty lines are printed after each command (1 header + 1 empty + 3 commands * 4 lines each)
-		expect(mockConsoleLog).toHaveBeenCalledTimes(14);
+		// Check that empty lines are printed after each command (1 header + 1 empty + 3 commands * 5 lines each)
+		expect(mockConsoleLog).toHaveBeenCalledTimes(17);
 	});
 
 	it("should display command without URL correctly", async () => {
 		const registryWithoutUrl: Registry = {
 			commands: [
 				{
-					type: "registry_directory",
+					type: "ccccctl_registry",
 					name: "simple",
+					author: "simple-author",
 					description: "Simple command.",
 				},
 			],
@@ -145,6 +149,7 @@ describe("listCommand", () => {
 				{
 					type: "github",
 					name: "github-cmd",
+					author: "github-author",
 					description: "GitHub command with URL.",
 					url: "https://raw.githubusercontent.com/user/repo/main/cmd.md",
 				},

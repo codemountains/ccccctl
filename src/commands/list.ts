@@ -16,7 +16,7 @@ function formatDescription(description: string, indent = "  "): string {
 
 function getCommandTypeLabel(type: string): string {
 	switch (type) {
-		case "registry_directory":
+		case "ccccctl_registry":
 			return "[CCCCCTL]";
 		case "github":
 			return "[GITHUB]";
@@ -39,11 +39,12 @@ export async function listCommand(): Promise<void> {
 		registry.commands.forEach((command) => {
 			const typeLabel = getCommandTypeLabel(command.type);
 			console.log(`${typeLabel} ${command.name}`);
+			console.log(`  Author: ${command.author}`);
 			console.log(formatDescription(command.description));
 
 			if (command.type === "github") {
 				console.log(`  URL: ${command.url}`);
-			} else if (command.type === "registry_directory") {
+			} else if (command.type === "ccccctl_registry") {
 				console.log(`  URL: ${generateCcccctlUrl(command.name)}`);
 			}
 			console.log("");

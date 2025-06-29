@@ -51,7 +51,7 @@ export async function addCommand(
 			process.exit(1);
 		}
 
-		if (command.type === "registry_directory") {
+		if (command.type === "ccccctl_registry") {
 			// Check if we're in development mode (local registry exists)
 			const localRegistryPath = getRegistryPath();
 			if (existsSync(localRegistryPath)) {
