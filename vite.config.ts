@@ -56,6 +56,7 @@ export default defineConfig({
 			exclude: [
 				"node_modules/**",
 				"dist/**",
+				"scripts/**",
 				"**/*.test.ts",
 				"**/*.spec.ts",
 				"vite.config.ts",
