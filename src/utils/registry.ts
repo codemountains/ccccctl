@@ -1,16 +1,16 @@
-import { existsSync, readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import { load } from "js-yaml";
-import type { Registry, RegistryCommand } from "@/types/index.js";
-import { RegistryError } from "@/types/index.js";
-import { validateRegistry } from "@/utils/validation.js";
+import { existsSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { load } from 'js-yaml';
+import type { Registry, RegistryCommand } from '@/types/index.js';
+import { RegistryError } from '@/types/index.js';
+import { validateRegistry } from '@/utils/validation.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const REGISTRY_URL =
-	"https://raw.githubusercontent.com/codemountains/ccccctl-registry/main/registry.yml";
+	'https://raw.githubusercontent.com/codemountains/ccccctl-registry/main/registry.yml';
 
 // Simple in-memory cache
 let registryCache: Registry | null = null;
@@ -22,26 +22,26 @@ export function clearRegistryCache(): void {
 
 export function getRegistryPath(): string {
 	// Try to find the registry.yml file from the current working directory or from the package root
-	const cwdPath = join(process.cwd(), ".registry/registry.yml");
+	const cwdPath = join(process.cwd(), '.registry/registry.yml');
 	if (existsSync(cwdPath)) {
 		return cwdPath;
 	}
 
 	// For development, look relative to the dist directory
-	return join(__dirname, "../../.registry/registry.yml");
+	return join(__dirname, '../../.registry/registry.yml');
 }
 
 function isDevelopmentMode(): boolean {
 	// Check if we're in development (.registry directory exists locally)
-	const cwdPath = join(process.cwd(), ".registry/registry.yml");
-	const distPath = join(__dirname, "../../.registry/registry.yml");
+	const cwdPath = join(process.cwd(), '.registry/registry.yml');
+	const distPath = join(__dirname, '../../.registry/registry.yml');
 	return existsSync(cwdPath) || existsSync(distPath);
 }
 
 async function fetchRegistryFromGitHub(): Promise<Registry> {
 	const response = await globalThis.fetch(REGISTRY_URL, {
 		headers: {
-			"User-Agent": "ccccctl",
+			'User-Agent': 'ccccctl',
 		},
 	});
 
@@ -83,7 +83,7 @@ export async function loadRegistryAsync(): Promise<Registry> {
 			if (!existsSync(registryPath)) {
 				throw RegistryError.notFound(registryPath);
 			}
-			const registryContent = readFileSync(registryPath, "utf-8");
+			const registryContent = readFileSync(registryPath, 'utf-8');
 			const parsedData = load(registryContent);
 			registry = validateRegistry(parsedData, registryPath);
 		} else {
@@ -116,7 +116,7 @@ export function loadRegistry(): Registry {
 			throw RegistryError.notFound(registryPath);
 		}
 		try {
-			const registryContent = readFileSync(registryPath, "utf-8");
+			const registryContent = readFileSync(registryPath, 'utf-8');
 			const parsedData = load(registryContent);
 			return validateRegistry(parsedData, registryPath);
 		} catch (error) {

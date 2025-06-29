@@ -7,12 +7,12 @@ interface BaseRegistryCommand {
 
 // ccccctl_registryタイプ（urlは不要）
 interface CcccctlRegistryCommand extends BaseRegistryCommand {
-	type: "ccccctl_registry";
+	type: 'ccccctl_registry';
 }
 
 // githubタイプ（urlが必須）
 interface GithubCommand extends BaseRegistryCommand {
-	type: "github";
+	type: 'github';
 	url: string;
 }
 

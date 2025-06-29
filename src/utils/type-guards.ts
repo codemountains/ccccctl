@@ -1,12 +1,12 @@
-import type { RegistryCommand } from "@/types/registry.js";
+import type { RegistryCommand } from '@/types/registry.js';
 
 /**
  * ccccctl_registry型のコマンドかどうかを判定する型ガード関数
  */
 export function isCcccctlRegistryCommand(
 	command: RegistryCommand,
-): command is RegistryCommand & { type: "ccccctl_registry" } {
-	return command.type === "ccccctl_registry";
+): command is RegistryCommand & { type: 'ccccctl_registry' } {
+	return command.type === 'ccccctl_registry';
 }
 
 /**
@@ -14,15 +14,15 @@ export function isCcccctlRegistryCommand(
  */
 export function isGithubCommand(
 	command: RegistryCommand,
-): command is RegistryCommand & { type: "github"; url: string } {
-	return command.type === "github";
+): command is RegistryCommand & { type: 'github'; url: string } {
+	return command.type === 'github';
 }
 
 /**
  * RegistryCommandオブジェクトの基本的な構造をチェックする型ガード関数
  */
 export function isRegistryCommandLike(obj: unknown): obj is RegistryCommand {
-	if (typeof obj !== "object" || obj === null) {
+	if (typeof obj !== 'object' || obj === null) {
 		return false;
 	}
 
@@ -30,21 +30,21 @@ export function isRegistryCommandLike(obj: unknown): obj is RegistryCommand {
 
 	// 必須プロパティのチェック
 	if (
-		typeof command.name !== "string" ||
-		typeof command.author !== "string" ||
-		typeof command.description !== "string" ||
-		typeof command.type !== "string"
+		typeof command.name !== 'string' ||
+		typeof command.author !== 'string' ||
+		typeof command.description !== 'string' ||
+		typeof command.type !== 'string'
 	) {
 		return false;
 	}
 
 	// typeの値をチェック
-	if (command.type !== "ccccctl_registry" && command.type !== "github") {
+	if (command.type !== 'ccccctl_registry' && command.type !== 'github') {
 		return false;
 	}
 
 	// github型の場合はurlが必須
-	if (command.type === "github" && typeof command.url !== "string") {
+	if (command.type === 'github' && typeof command.url !== 'string') {
 		return false;
 	}
 
@@ -54,7 +54,7 @@ export function isRegistryCommandLike(obj: unknown): obj is RegistryCommand {
 /**
  * RegistryCommandの配列から特定の型のコマンドのみをフィルタリングする
  */
-export function filterCommandsByType<T extends RegistryCommand["type"]>(
+export function filterCommandsByType<T extends RegistryCommand['type']>(
 	commands: RegistryCommand[],
 	type: T,
 ): Array<RegistryCommand & { type: T }> {

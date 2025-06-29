@@ -1,17 +1,17 @@
-import { writeFileSync } from "node:fs";
-import { homedir } from "node:os";
-import { join } from "node:path";
-import fsExtra from "fs-extra";
-import fetch from "node-fetch";
-import { FileSystemError, NetworkError } from "@/types/index.js";
+import { writeFileSync } from 'node:fs';
+import { homedir } from 'node:os';
+import { join } from 'node:path';
+import fsExtra from 'fs-extra';
+import fetch from 'node-fetch';
+import { FileSystemError, NetworkError } from '@/types/index.js';
 
 const { ensureDirSync, copyFileSync, removeSync, existsSync } = fsExtra;
 
 export function getClaudeCommandsDir(useUserDir = false): string {
 	if (useUserDir) {
-		return join(homedir(), ".claude", "commands");
+		return join(homedir(), '.claude', 'commands');
 	}
-	return join(process.cwd(), ".claude", "commands");
+	return join(process.cwd(), '.claude', 'commands');
 }
 
 export function ensureClaudeCommandsDir(useUserDir = false): void {
@@ -96,7 +96,7 @@ export async function downloadCommand(
 		if (error instanceof NetworkError) {
 			throw error;
 		}
-		if (error instanceof Error && error.message.includes("fetch")) {
+		if (error instanceof Error && error.message.includes('fetch')) {
 			const rawUrl = convertGitHubUrlToRaw(url);
 			throw NetworkError.requestFailed(rawUrl);
 		}
