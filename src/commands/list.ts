@@ -16,7 +16,7 @@ function formatDescription(description: string, indent = "  "): string {
 
 function getCommandTypeLabel(type: string): string {
 	switch (type) {
-		case "registry_directory":
+		case "ccccctl_registry":
 			return "[CCCCCTL]";
 		case "github":
 			return "[GITHUB]";
@@ -25,8 +25,8 @@ function getCommandTypeLabel(type: string): string {
 	}
 }
 
-function generateCcccctlUrl(commandName: string): string {
-	return `https://github.com/codemountains/ccccctl/tree/main/registry/commands/${commandName}/${commandName}.md`;
+function generateRegistryUrl(commandName: string): string {
+	return `https://github.com/codemountains/ccccctl-registry/tree/main/commands/${commandName}/${commandName}.md`;
 }
 
 export async function listCommand(): Promise<void> {
@@ -39,12 +39,13 @@ export async function listCommand(): Promise<void> {
 		registry.commands.forEach((command) => {
 			const typeLabel = getCommandTypeLabel(command.type);
 			console.log(`${typeLabel} ${command.name}`);
+			console.log(`  Author: ${command.author}`);
 			console.log(formatDescription(command.description));
 
 			if (command.type === "github") {
 				console.log(`  URL: ${command.url}`);
-			} else if (command.type === "registry_directory") {
-				console.log(`  URL: ${generateCcccctlUrl(command.name)}`);
+			} else if (command.type === "ccccctl_registry") {
+				console.log(`  URL: ${generateRegistryUrl(command.name)}`);
 			}
 			console.log("");
 		});

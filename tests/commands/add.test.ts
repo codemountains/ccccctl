@@ -71,8 +71,9 @@ describe("addCommand", () => {
 
 	it("should exit with error when command already exists in project scope", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
@@ -92,8 +93,9 @@ describe("addCommand", () => {
 
 	it("should exit with error when command already exists in user scope", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
@@ -111,24 +113,25 @@ describe("addCommand", () => {
 		expect(mockProcessExit).toHaveBeenCalledWith(1);
 	});
 
-	it("should add registry_directory command from local registry in development mode", async () => {
+	it("should add ccccctl_registry command from local registry in development mode", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
 		mockFindCommandAsync.mockResolvedValue(mockCommand);
 		mockCommandExists.mockReturnValue(false);
 		mockGetRegistryPath.mockReturnValue(
-			"/workspace/ccccctl/registry/registry.yml",
+			"/workspace/ccccctl/.registry/registry.yml",
 		);
 		mockExistsSync.mockReturnValue(true);
 
 		await addCommand("test-command", {});
 
 		expect(mockCopyLocalCommand).toHaveBeenCalledWith(
-			"/workspace/ccccctl/registry/commands/test-command/test-command.md",
+			"/workspace/ccccctl/.registry/commands/test-command/test-command.md",
 			"test-command",
 			false,
 		);
@@ -137,24 +140,25 @@ describe("addCommand", () => {
 		);
 	});
 
-	it("should add registry_directory command from GitHub in production mode", async () => {
+	it("should add ccccctl_registry command from GitHub in production mode", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
 		mockFindCommandAsync.mockResolvedValue(mockCommand);
 		mockCommandExists.mockReturnValue(false);
 		mockGetRegistryPath.mockReturnValue(
-			"/workspace/ccccctl/registry/registry.yml",
+			"/workspace/ccccctl/.registry/registry.yml",
 		);
 		mockExistsSync.mockReturnValue(false);
 
 		await addCommand("test-command", {});
 
 		expect(mockDownloadCommand).toHaveBeenCalledWith(
-			"https://raw.githubusercontent.com/codemountains/ccccctl/main/registry/commands/test-command/test-command.md",
+			"https://raw.githubusercontent.com/codemountains/ccccctl-registry/main/commands/test-command/test-command.md",
 			"test-command",
 			false,
 		);
@@ -167,6 +171,7 @@ describe("addCommand", () => {
 		const mockCommand: RegistryCommand = {
 			type: "github",
 			name: "custom-command",
+			author: "custom-author",
 			description: "Custom command",
 			url: "https://github.com/user/repo/.claude/commands/custom.md",
 		};
@@ -188,22 +193,23 @@ describe("addCommand", () => {
 
 	it("should use custom name when --name option is provided", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
 		mockFindCommandAsync.mockResolvedValue(mockCommand);
 		mockCommandExists.mockReturnValue(false);
 		mockGetRegistryPath.mockReturnValue(
-			"/workspace/ccccctl/registry/registry.yml",
+			"/workspace/ccccctl/.registry/registry.yml",
 		);
 		mockExistsSync.mockReturnValue(true);
 
 		await addCommand("test-command", { name: "my-custom-name" });
 
 		expect(mockCopyLocalCommand).toHaveBeenCalledWith(
-			"/workspace/ccccctl/registry/commands/test-command/test-command.md",
+			"/workspace/ccccctl/.registry/commands/test-command/test-command.md",
 			"my-custom-name",
 			false,
 		);
@@ -214,15 +220,16 @@ describe("addCommand", () => {
 
 	it("should use user directory when --user option is true", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
 		mockFindCommandAsync.mockResolvedValue(mockCommand);
 		mockCommandExists.mockReturnValue(false);
 		mockGetRegistryPath.mockReturnValue(
-			"/workspace/ccccctl/registry/registry.yml",
+			"/workspace/ccccctl/.registry/registry.yml",
 		);
 		mockExistsSync.mockReturnValue(true);
 
@@ -230,7 +237,7 @@ describe("addCommand", () => {
 
 		expect(mockCommandExists).toHaveBeenCalledWith("test-command", true);
 		expect(mockCopyLocalCommand).toHaveBeenCalledWith(
-			"/workspace/ccccctl/registry/commands/test-command/test-command.md",
+			"/workspace/ccccctl/.registry/commands/test-command/test-command.md",
 			"test-command",
 			true,
 		);
@@ -240,6 +247,7 @@ describe("addCommand", () => {
 		const mockCommand: any = {
 			type: "unknown",
 			name: "invalid-command",
+			author: "invalid-author",
 			description: "Invalid command with unknown type",
 		};
 
@@ -258,15 +266,16 @@ describe("addCommand", () => {
 
 	it("should exit with error when command addition fails", async () => {
 		const mockCommand: RegistryCommand = {
-			type: "registry_directory",
+			type: "ccccctl_registry",
 			name: "test-command",
+			author: "test-author",
 			description: "Test command",
 		};
 
 		mockFindCommandAsync.mockResolvedValue(mockCommand);
 		mockCommandExists.mockReturnValue(false);
 		mockGetRegistryPath.mockReturnValue(
-			"/workspace/ccccctl/registry/registry.yml",
+			"/workspace/ccccctl/.registry/registry.yml",
 		);
 		mockExistsSync.mockReturnValue(true);
 		mockCopyLocalCommand.mockImplementation(() => {

@@ -47,6 +47,8 @@ ccccctl -V
 - **Test with watch**: `npm run test:watch` - Run tests in watch mode
 - **Test coverage**: `npm run test:coverage` - Generate coverage report
 - **Test UI**: `npm run test:ui` - Open Vitest UI
+- **Setup development registry**: `npm run setup:dev` - Create .registry/ with sample commands from external repository
+- **Reset development registry**: `npm run reset:dev` - Remove .registry/ directory completely
 
 ## Code Architecture
 
@@ -60,12 +62,14 @@ ccccctl -V
 ### Registry System
 
 The tool supports two command sources:
-- `registry_directory`: Commands stored in local `registry/commands/` directory
+- `ccccctl_registry`: Commands stored in local `.registry/commands/` directory (development only)
 - `github`: Commands fetched from external GitHub repositories via URL
 
 Registry resolution follows this priority:
-1. Development mode: Uses local `registry/registry.yml` if present
-2. Production mode: Fetches from `https://raw.githubusercontent.com/codemountains/ccccctl/main/registry/registry.yml`
+1. Development mode: Uses local `.registry/registry.yml` if present
+2. Production mode: Fetches from `https://raw.githubusercontent.com/codemountains/ccccctl-registry/main/registry.yml`
+
+Note: The `.registry/` directory is for development purposes only and is excluded from version control.
 
 ### Command Storage
 

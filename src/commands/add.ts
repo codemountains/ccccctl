@@ -51,7 +51,7 @@ export async function addCommand(
 			process.exit(1);
 		}
 
-		if (command.type === "registry_directory") {
+		if (command.type === "ccccctl_registry") {
 			// Check if we're in development mode (local registry exists)
 			const localRegistryPath = getRegistryPath();
 			if (existsSync(localRegistryPath)) {
@@ -67,7 +67,7 @@ export async function addCommand(
 				console.log(`Added command "${targetName}" from local registry`);
 			} else {
 				// Production mode: download from GitHub
-				const githubUrl = `https://raw.githubusercontent.com/codemountains/ccccctl/main/registry/commands/${commandName}/${commandName}.md`;
+				const githubUrl = `https://raw.githubusercontent.com/codemountains/ccccctl-registry/main/commands/${commandName}/${commandName}.md`;
 				await downloadCommand(githubUrl, targetName, useUserDir);
 				console.log(`Added command "${targetName}" from GitHub registry`);
 			}

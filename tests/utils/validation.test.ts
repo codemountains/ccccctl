@@ -4,18 +4,20 @@ import { RegistryError } from "@/types/index.js";
 
 describe("validation utilities", () => {
 	describe("validateRegistryCommand", () => {
-		test("should validate registry_directory command", () => {
+		test("should validate ccccctl_registry command", () => {
 			const data = {
-				type: "registry_directory",
+				type: "ccccctl_registry",
 				name: "test-command",
+				author: "test-author",
 				description: "Test command description",
 			};
 
 			const result = validateRegistryCommand(data);
 
 			expect(result).toEqual({
-				type: "registry_directory",
+				type: "ccccctl_registry",
 				name: "test-command",
+				author: "test-author",
 				description: "Test command description",
 			});
 		});
@@ -24,6 +26,7 @@ describe("validation utilities", () => {
 			const data = {
 				type: "github",
 				name: "test-command",
+				author: "test-author",
 				description: "Test command description",
 				url: "https://example.com/test.md",
 			};
@@ -33,6 +36,7 @@ describe("validation utilities", () => {
 			expect(result).toEqual({
 				type: "github",
 				name: "test-command",
+				author: "test-author",
 				description: "Test command description",
 				url: "https://example.com/test.md",
 			});
@@ -46,7 +50,8 @@ describe("validation utilities", () => {
 
 		test("should throw error for missing name", () => {
 			const data = {
-				type: "registry_directory",
+				type: "ccccctl_registry",
+				author: "test-author",
 				description: "Test description",
 			};
 
@@ -55,8 +60,9 @@ describe("validation utilities", () => {
 
 		test("should throw error for empty name", () => {
 			const data = {
-				type: "registry_directory",
+				type: "ccccctl_registry",
 				name: "",
+				author: "test-author",
 				description: "Test description",
 			};
 
@@ -65,8 +71,9 @@ describe("validation utilities", () => {
 
 		test("should throw error for missing description", () => {
 			const data = {
-				type: "registry_directory",
+				type: "ccccctl_registry",
 				name: "test-command",
+				author: "test-author",
 			};
 
 			expect(() => validateRegistryCommand(data)).toThrow("Command must have a non-empty description");
@@ -74,17 +81,40 @@ describe("validation utilities", () => {
 
 		test("should throw error for empty description", () => {
 			const data = {
-				type: "registry_directory",
+				type: "ccccctl_registry",
 				name: "test-command",
+				author: "test-author",
 				description: "",
 			};
 
 			expect(() => validateRegistryCommand(data)).toThrow("Command must have a non-empty description");
 		});
 
+		test("should throw error for missing author", () => {
+			const data = {
+				type: "ccccctl_registry",
+				name: "test-command",
+				description: "Test description",
+			};
+
+			expect(() => validateRegistryCommand(data)).toThrow("Command must have a non-empty author");
+		});
+
+		test("should throw error for empty author", () => {
+			const data = {
+				type: "ccccctl_registry",
+				name: "test-command",
+				author: "",
+				description: "Test description",
+			};
+
+			expect(() => validateRegistryCommand(data)).toThrow("Command must have a non-empty author");
+		});
+
 		test("should throw error for missing type", () => {
 			const data = {
 				name: "test-command",
+				author: "test-author",
 				description: "Test description",
 			};
 
@@ -95,6 +125,7 @@ describe("validation utilities", () => {
 			const data = {
 				type: "invalid-type",
 				name: "test-command",
+				author: "test-author",
 				description: "Test description",
 			};
 
@@ -105,6 +136,7 @@ describe("validation utilities", () => {
 			const data = {
 				type: "github",
 				name: "test-command",
+				author: "test-author",
 				description: "Test description",
 			};
 
@@ -115,6 +147,7 @@ describe("validation utilities", () => {
 			const data = {
 				type: "github",
 				name: "test-command",
+				author: "test-author",
 				description: "Test description",
 				url: "",
 			};
@@ -126,6 +159,7 @@ describe("validation utilities", () => {
 			const data = {
 				type: "invalid-type",
 				name: "test-command",
+				author: "test-author",
 				description: "Test description",
 			};
 
@@ -138,13 +172,15 @@ describe("validation utilities", () => {
 			const data = {
 				commands: [
 					{
-						type: "registry_directory",
+						type: "ccccctl_registry",
 						name: "test-command",
+						author: "test-author",
 						description: "Test description",
 					},
 					{
 						type: "github",
 						name: "github-command",
+						author: "github-author",
 						description: "GitHub description",
 						url: "https://example.com/test.md",
 					},
@@ -156,13 +192,15 @@ describe("validation utilities", () => {
 			expect(result).toEqual({
 				commands: [
 					{
-						type: "registry_directory",
+						type: "ccccctl_registry",
 						name: "test-command",
+						author: "test-author",
 						description: "Test description",
 					},
 					{
 						type: "github",
 						name: "github-command",
+						author: "github-author",
 						description: "GitHub description",
 						url: "https://example.com/test.md",
 					},
@@ -197,6 +235,7 @@ describe("validation utilities", () => {
 					{
 						type: "invalid-type",
 						name: "test-command",
+						author: "test-author",
 						description: "Test description",
 					},
 				],
@@ -210,13 +249,15 @@ describe("validation utilities", () => {
 			const data = {
 				commands: [
 					{
-						type: "registry_directory",
+						type: "ccccctl_registry",
 						name: "duplicate-name",
+						author: "author1",
 						description: "First command",
 					},
 					{
 						type: "github",
 						name: "duplicate-name",
+						author: "author2",
 						description: "Second command",
 						url: "https://example.com/test.md",
 					},
