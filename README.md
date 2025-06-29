@@ -63,10 +63,21 @@ ccccctl add history
 ### Version Information
 
 ```bash
-ccccctl version
+ccccctl --version
 
 # Using npx
-npx ccccctl version
+npx ccccctl --version
+```
+
+### Help Information
+
+```bash
+ccccctl --help
+ccccctl add --help
+
+# Using npx
+npx ccccctl --help
+npx ccccctl remove --help
 ```
 
 ## Command Storage Locations
