@@ -47,6 +47,8 @@ ccccctl -V
 - **Test with watch**: `npm run test:watch` - Run tests in watch mode
 - **Test coverage**: `npm run test:coverage` - Generate coverage report
 - **Test UI**: `npm run test:ui` - Open Vitest UI
+- **Setup development registry**: `npm run setup:dev` - Create .registry/ with sample commands from external repository
+- **Reset development registry**: `npm run reset:dev` - Remove .registry/ directory completely
 
 ## Code Architecture
 
