@@ -7,3 +7,5 @@ eamodio
 ehthumbs
 jungaretti
 robbyrussell
+Vite
+vitepress

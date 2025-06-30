@@ -1,6 +1,6 @@
 # ccccctl
 
-**Claude Code Custom slash commands Control** - A CLI tool for managing Claude Code Custom slash commands.
+**Claude Code Custom Commands Control** - A CLI tool for managing Claude Code Custom slash commands.
 
 ## Overview
 

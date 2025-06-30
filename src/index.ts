@@ -20,7 +20,7 @@ const program = new Command();
 program
 	.name('ccccctl')
 	.description(
-		'Claude Code Custom Commands Control - Manage Claude Code custom commands',
+		'Claude Code Custom Commands Control - Manage Claude Code Custom slash commands',
 	)
 	.version(packageJson.version);
 
