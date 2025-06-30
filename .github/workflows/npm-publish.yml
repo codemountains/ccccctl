@@ -69,14 +69,19 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
+      - name: Create Git tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag v${{ needs.check-version.outputs.current-version }}
+          git push origin v${{ needs.check-version.outputs.current-version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ needs.check-version.outputs.current-version }}
-          release_name: Release v${{ needs.check-version.outputs.current-version }}
-          body: |
-            Automated release for version ${{ needs.check-version.outputs.current-version }}
-          draft: false
-          prerelease: false
+          
+      - name: Create GitHub Release
+        run: |
+          gh release create v${{ needs.check-version.outputs.current-version }} \
+            --title "Release v${{ needs.check-version.outputs.current-version }}" \
+            --notes "Automated release for version ${{ needs.check-version.outputs.current-version }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
