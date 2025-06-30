@@ -15,7 +15,7 @@ const mockPackageJson = {
 	name: "ccccctl",
 	version: "1.0.0",
 	description:
-		"Claude Code Custom Commands Control - Manage Claude Code custom commands",
+		"Claude Code Custom Commands Control - Manage Claude Code Custom slash commands",
 };
 
 // Mock type for Commander.js Command instance
@@ -67,7 +67,7 @@ describe("CLI index", () => {
 
 		expect(mockProgram.name).toHaveBeenCalledWith("ccccctl");
 		expect(mockProgram.description).toHaveBeenCalledWith(
-			"Claude Code Custom Commands Control - Manage Claude Code custom commands",
+			"Claude Code Custom Commands Control - Manage Claude Code Custom slash commands",
 		);
 		expect(mockProgram.version).toHaveBeenCalledWith("1.0.0");
 	});

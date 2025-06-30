@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`ccccctl` (Claude Code Custom Commands Control) is a CLI tool for managing Claude Code custom commands. It allows users to add, remove, and list custom commands from a registry that can be stored locally or fetched from GitHub.
+`ccccctl` (Claude Code Custom Commands Control) is a CLI tool for managing Claude Code Custom slash commands. It allows users to add, remove, and list custom slash commands from `ccccctl-registry`.
 
 ## CLI Usage Examples
 

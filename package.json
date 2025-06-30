@@ -1,7 +1,7 @@
 {
   "name": "ccccctl",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/index.js",
   "bin": {
     "ccccctl": "dist/index.js"
@@ -9,6 +9,9 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
+    "docs:dev": "vitepress dev docs --host 0.0.0.0 --port 5173",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
     "lint": "biome check .",
     "lint:fix": "biome check . --write",
     "test": "vitest",
@@ -27,7 +30,7 @@
   ],
   "author": "codemountains",
   "license": "MIT",
-  "description": "Claude Code Custom Commands Control - CLI tool for managing Claude Code custom commands",
+  "description": "Claude Code Custom Commands Control - A CLI tool for managing Claude Code Custom slash commands.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/codemountains/ccccctl.git"
@@ -62,6 +65,7 @@
     "typescript": "^5.3.3",
     "vite": "^7.0.0",
     "vite-plugin-dts": "^4.5.4",
+    "vitepress": "^1.6.3",
     "vitest": "^3.2.4"
   }
 }
