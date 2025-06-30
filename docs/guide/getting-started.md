@@ -45,4 +45,3 @@ That's it! You now have a custom command available in Claude Code.
 
 - Learn more about [Installation](./installation.md) options
 - Explore detailed [Usage](./usage.md) examples
-- Set up for [Development](./development.md) if you want to contribute
