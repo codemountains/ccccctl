@@ -1,7 +1,7 @@
 {
   "name": "ccccctl",
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/index.js",
   "bin": {
     "ccccctl": "dist/index.js"
@@ -38,7 +38,7 @@
   "bugs": {
     "url": "https://github.com/codemountains/ccccctl/issues"
   },
-  "homepage": "https://github.com/codemountains/ccccctl#readme",
+  "homepage": "https://codemountains.github.io/ccccctl/",
   "engines": {
     "node": ">=18.0.0"
   },
