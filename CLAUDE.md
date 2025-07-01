@@ -32,9 +32,12 @@ ccccctl remove history
 ccccctl remove history --user
 
 # Show version
-ccccctl version
 ccccctl --version
 ccccctl -V
+
+# Show help
+ccccctl --help
+ccccctl -h
 ```
 
 ## Development Commands
